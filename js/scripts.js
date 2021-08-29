@@ -37,3 +37,30 @@ function loaddashboardData(obj) {
     document.querySelector('#food-questions').innerText = "No Data Available"
   };
 }
+
+document.getElementById("button-search").addEventListener("click", function(e) {
+  const search = document.querySelector(".form-control").value;
+  initiateFoodQuery(search);
+});
+
+function initiateFoodQuery(search) {
+  const data = {search: search};
+
+  fetch("http://localhost:3000/api/v1/food_queries", {
+    method: 'POST', // or 'PUT'
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+}
+
+
+
