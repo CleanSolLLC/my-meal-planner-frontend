@@ -1,11 +1,3 @@
-/*!
-* Start Bootstrap - Blog Home v5.0.3 (https://startbootstrap.com/template/blog-home)
-* Copyright 2013-2021 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-blog-home/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
-
 
 const endpoint = "http://localhost:3000/api/v1/food_queries"
 
@@ -39,15 +31,17 @@ function loaddashboardData(obj) {
 }
 
 document.getElementById("button-search").addEventListener("click", function(e) {
-  const search = document.querySelector(".form-control").value;
-  initiateFoodQuery(search);
+  debugger;
+  initiateFoodQuery(e);
 });
 
-function initiateFoodQuery(search) {
+function initiateFoodQuery(e) {
+  e.preventDefault()
+  const search = document.querySelector(".form-control").value;
   const data = {search: search};
 
   fetch("http://localhost:3000/api/v1/food_queries", {
-    method: 'POST', // or 'PUT'
+    method: 'POST', 
     headers: {
       'Content-Type': 'application/json',
     },
@@ -55,11 +49,22 @@ function initiateFoodQuery(search) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log('Success:', data);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
+    //debugger;
+    const foodQueryMarkup = 
+    `<b>Q. ${data.search}</b>
+    <p><b>A.</b> ${data.response}</p>
+    <button data-id=${data.id}>delete</button>
+    <div>
+    <br></br>`;
+    document.querySelector('#food-questions').innerHTML += foodQueryMarkup 
+    //console.log('Success:', data);
+
   });
+  // .catch((error) => {
+  //   console.error('Error:', error);
+  // });
+
+
 }
 
 
