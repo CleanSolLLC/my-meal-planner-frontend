@@ -103,7 +103,7 @@
                 <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Search</div>
+                        <div class="card-header">Search Food Related Questions</div>
                         <div class="card-body">
                             <div class="input-group">
                                 <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
@@ -114,8 +114,8 @@
                     <!-- Categories widget-->
                     <div class="card mb-4">
                         <div class="card-header">Find Delicious Recipes!</div>
+                       
                         <div class="card-body">
-
                             <label for="foodTypeList" class="form-label">Enter Food Type</label>
                             <input class="form-control" list="foodTypeOptions" id="foodTypeList" placeholder="Type to search...">
                             <datalist id="foodTypeOptions">
@@ -128,14 +128,18 @@
                               <option value="breakfast">
                               <option value="soup">
                               <option value="beverage">
-                              <option value="sauce">
+                              <option value="sauce">       
                               <option value="drink">
+                              <option value="beef">
+                              <option value="poultry">
+                              <option value="seafood">
+                              <option value="pork">
                             </datalist> 
                         </div>  
                         
 
                         <div class="card-body"> 
-                            <label for="dietList" class="form-label">Enter Cuisine Type (optional)</label>
+                            <label for="cuisineList" class="form-label">Enter Cuisine Type (optional)</label>
                             <input class="form-control" list="cuisineOptions" id="cuisineList" placeholder="Type to search...">
                             <datalist id="cuisineOptions">
                               <option value="african">
@@ -177,7 +181,31 @@
                             </datalist> 
                         </div>
 
-
+                        <div class="card-body">
+                            <label for="intoleranceList" class="form-label">Enter Food Intolerance (optional)</label>
+                            <input class="form-control" list="intoleranceOptions" id="intoleranceList" placeholder="Type to search...">
+                            <datalist id="intoleranceOptions">
+                              <option value="dairy">
+                              <option value="egg">
+                              <option value="gluten">
+                              <option value="peanut">
+                              <option value="sesame">
+                              <option value="seafood">
+                              <option value="shellfish">
+                              <option value="soy">
+                              <option value="sulfite">
+                              <option value="tree nut">
+                              <option value="wheat">
+                            </datalist> 
+                        </div> 
+ 
+                        <div class="card-body">
+                            <label for="exclusionList" class="form-label">Enter ingredient exclusions comma separated (optional)</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Enter exclusions..." aria-label="Enter exclusions..." aria-describedby="button-search" />
+                                <button class="btn btn-primary" id="button-search" type="button">Find Recipes!</button>
+                            </div>
+                        </div>
 
 
                     </div>
