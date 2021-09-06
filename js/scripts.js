@@ -110,3 +110,28 @@ function deleteFoodQuery(e) {
    });
 
   }
+
+document.querySelector("#button-recipe-search").addEventListener("click", function(e) {
+  getFoodListValues(e)
+});  
+
+
+function getFoodListValues(e) {
+  debugger;
+  //obj = {
+  let recipeQuery = document.querySelector("#typeText").value  
+  let recipesReturned = document.querySelector("#typeNumber").value
+  let foodTypeList = document.querySelector("#foodTypeList").value;
+  let cuisineList = document.querySelector("#cuisineList").value;
+  let dietList = document.querySelector("#dietList").value;
+  let intoleranceList = document.querySelector("#intoleranceList").value;
+  let exclusionList = document.querySelector("#button-recipe-search").value;
+  
+  //}
+
+
+  
+  document.querySelector(".form-control").value;
+}
+
+

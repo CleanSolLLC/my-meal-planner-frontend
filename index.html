@@ -103,7 +103,7 @@
                 <div class="col-lg-4">
                     <!-- Search widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Search Food Related Questions</div>
+                        <div class="card-header"><b>Search Food Related Questions</b></div>
                         <div class="card-body">
                             <div class="input-group">
                                 <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
@@ -113,10 +113,20 @@
                     </div>
                     <!-- Categories widget-->
                     <div class="card mb-4">
-                        <div class="card-header">Find Delicious Recipes!</div>
+                        <div class="card-header"><b>Find Delicious Recipes!</b></div>
+
+                        <div class="card-body">
+                            <label for="generalRecipeInfo" class="form-label">Enter a general search term for your recipes (required)</label>
+                            <input type="text" id="typeText" class="form-control" />
+                        </div>                         
+
+                        <div class="card-body">
+                            <label for="numRecipesReturned" class="form-label">Enter the number of recipes you want to see between 1-100 (optional)</label>
+                            <input type="number" id="typeNumber" class="form-control" />
+                        </div>                        
                        
                         <div class="card-body">
-                            <label for="foodTypeList" class="form-label">Enter Food Type</label>
+                            <label for="foodTypeList" class="form-label">Enter Food Type (optional)</label>
                             <input class="form-control" list="foodTypeOptions" id="foodTypeList" placeholder="Type to search...">
                             <datalist id="foodTypeOptions">
                               <option value="main course">
@@ -130,10 +140,6 @@
                               <option value="beverage">
                               <option value="sauce">       
                               <option value="drink">
-                              <option value="beef">
-                              <option value="poultry">
-                              <option value="seafood">
-                              <option value="pork">
                             </datalist> 
                         </div>  
                         
@@ -198,13 +204,14 @@
                               <option value="wheat">
                             </datalist> 
                         </div> 
- 
+
                         <div class="card-body">
                             <label for="exclusionList" class="form-label">Enter ingredient exclusions comma separated (optional)</label>
-                            <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter exclusions..." aria-label="Enter exclusions..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Find Recipes!</button>
-                            </div>
+                            <input type="text" id="typeTextExclusions" class="form-control" />
+                        </div>                         
+ 
+                        <div class="card-body">    
+                            <button class="btn btn-primary" id="button-recipe-search" type="button">Find Recipes!</button>
                         </div>
 
 
