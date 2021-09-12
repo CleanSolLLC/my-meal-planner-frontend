@@ -2,6 +2,25 @@
 const endpoint = "http://localhost:3000/api/v1/food_queries";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 
+const arry = [{"id": 93877,
+   "title":"Beef Enchiladas",
+   "readyInMinutes":45,
+   "servings":6,
+   "sourceUrl":"http://www.marthastewart.com/344471/beef-enchiladas",
+   "openLicense":0,
+   "image":"beef-enchiladas-2-93877.png"
+   },
+   
+   {"id": 278914,
+   "title":"Basil Beef",
+   "readyInMinutes":52,
+   "servings":6,
+   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+   "openLicense":0,
+   "image":"basil-beef-278914.jpg"
+   }
+]
+
 document.addEventListener("DOMContentLoaded", () => {
   getdashboardData()
 });
@@ -159,76 +178,115 @@ function initiateRecipeSearch(recipeCriteria) {
   fetch(url, {
   "method": "GET",
   "headers": {
-    "x-rapidapi-host": "webknox-recipes.p.rapidapi.com",
-    "x-rapidapi-key": "aea69f05cemsh468b16ddc14e2b6p1d9bc7jsned15aa5946e3"
+    "x-rapidapi-host": config["RAPID-API-HOST"],
+    "x-rapidapi-key":  config["RAPID-API-KEY"]
   }
 })
   .then(response => response.json())
   .then(data => {
-    debugger
-    let arry = data["results"]
-    arry.forEach(recipe => {
-      let recipeImage = imagesPath + recipe.image 
-      document.querySelector(".row .col-lg-6 img").attributes.src.value = recipeImage; 
-      const recipeMarkup = 
-    `<div data-id=${recipe.id}>
-      <b>Title: ${recipe.title}</b>
-      <p><b>Ready In:</b> ${recipe.readyInMinutes}</p>
-      <p><b>Servings:</b> ${recipe.servings}</p>
-      <p><b>Servings:</b> ${recipe.sourceUrl}</p>
-      <button class="save-button" type="button" value="Save" data-id=${recipe.id}>Save</button>
-      <button class="delete-button" type="button" value="Delete" data-id=${recipe.id}>Delete</button>
-    <div>
-    <br></br>`;
-    document.querySelector(".row .col-lg-6 .card-body").innerHTML += recipeMarkup
-  });
+
+    createRecipeCards(data)
+
   })
 
   .catch(err => {
   console.error(err);
 });
-//   let url = "http://localhost:3000/api/v1/foods";
-//   //const data = recipeCriteria;
-
-//    
-//    debugger;
-
-//   fetch(url, {
-//     //method: 'POST', 
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     //body: JSON.stringify(data),
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//      // if (!!data.error) {
-//      //   alert(data.error)
-//      // } else {
-
-//      //        const foodQueryMarkup = 
-//      //        `<b>Q. ${data.search}</b>
-//      //        <p><b>A.</b> ${data.response}</p>
-//      //        <button type="submit" value="Submit" data-id=${foodQuery.id}>Delete</button>
-//      //        <div>
-//      //        <br></br>`;
-//      //        document.querySelector('#food-questions').innerHTML += foodQueryMarkup 
-//      //        //console.log('Success:', data);
-//      //        }
-
-//   })
-//    .catch((errors) => {
-//      alert(errors);
-//    });
-
-// document.querySelector("button").addEventListener("click", function(e) {
-//   deleteFoodQuery(e);
-//   });
 
 }
 
-// "https://webknox-recipes.p.rapidapi.com/recipes/search?query=burger&offset=0&number=10&type=main%20course&cuisine=italian&diet=vegetarian&intolerances=egg%2C%20gluten&excludeIngredients=coconut"
+// Insert an element with a class name before the passed element
+function createAndAddSibling(tag, className, placeAfter) {
+  let element = createElement(tag, className);
+  let referenceNode = document.querySelector(`${placeAfter}`)
+  referenceNode.parentNode.insertBefore(element, referenceNode.nextSibling);
+  //document.body.insertBefore(element, placeBefore);
+}
 
-//"https://webknox-recipes.p.rapidapi.com/recipes/search?query=burger&offset=0&number=10&type=main%20course&cuisine=italian"
 
-'https://webknox-recipes.p.rapidapi.com/recipes/search?query=burger&number=10&type=main+course&cuisine=italian'
+// Insert an element with a class name as a child of the third parameter
+function createAndAddChild(tag, className, node) {
+  let element = createElement(tag, className);
+  let parentNode = document.querySelector(`${node}`)
+  parentNode.appendChild(element);
+  //document.body.insertBefore(element, placeBefore);
+}
+
+
+
+// Return a new element with a certain class
+function createElement(tag, className) {
+   let element = document.createElement(tag);
+   element.className = className;
+   return element;
+}
+
+
+function createRecipeCards(data) {
+  // COL-LG-8
+  //   ROW
+  //     COL-LG-6
+  //         CARD MB-4
+  //         CARD MB-4
+  //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that 
+
+   //let maxColCnt = 0;
+   //createAndAddSibling("div", "row", ".col-lg-8 .card");
+   //createAndAddChild("div", "col-lg-6", ".col-lg-8 .row");
+   //createAndAddChild("div", "card mb-4", ".col-lg-6");
+
+
+  //let arry = data["results"]
+
+  let container = document.querySelector(".col-lg-8")
+  let recipeMarkup = ''
+
+
+  arry.forEach(function(recipe, i) {
+   
+    if(i===0) {
+      recipeMarkup += '<div class="row">'
+    }
+    let recipeImage = imagesPath + recipe.image;
+    
+     recipeMarkup += 
+    `<div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <img class="card-img-top" src=${recipeImage} />
+                <b>Title: ${recipe.title}</b>
+                <p><b>Ready In:</b> ${recipe.readyInMinutes}</p>
+                <p><b>Servings:</b> ${recipe.servings}</p>
+                <p><a href="${recipe.sourceUrl}">${recipe.sourceUrl}</a></p>
+                <button class="save-button" type="button" value="Save" data-id=${recipe.id}>Save</button>
+                <button class="delete-button" type="button" value="Delete" data-id=${recipe.id}>Delete</button>
+            </div>
+        </div>
+      </div>`;
+
+    if(i!==0 && i%2 === 0){
+    // add end of row ,and start new row on every 5 elements
+    content += '</div><div class="row">'
+    } 
+
+  });
+
+  recipeMarkup += '</div>';
+  container.innerHTML += recipeMarkup;
+
+}
+
+createRecipeCards(arry);
+
+
+
+
+
+      
+
+
+
+
+
+
+
