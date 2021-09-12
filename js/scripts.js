@@ -18,6 +18,24 @@ const arry = [{"id": 93877,
    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
    "openLicense":0,
    "image":"basil-beef-278914.jpg"
+   },
+
+      {"id": 278914,
+   "title":"Basil Beef",
+   "readyInMinutes":52,
+   "servings":6,
+   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+   "openLicense":0,
+   "image":"basil-beef-278914.jpg"
+   },
+
+      {"id": 278914,
+   "title":"Basil Beef",
+   "readyInMinutes":52,
+   "servings":6,
+   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+   "openLicense":0,
+   "image":"basil-beef-278914.jpg"
    }
 ]
 
@@ -195,31 +213,7 @@ function initiateRecipeSearch(recipeCriteria) {
 
 }
 
-// Insert an element with a class name before the passed element
-function createAndAddSibling(tag, className, placeAfter) {
-  let element = createElement(tag, className);
-  let referenceNode = document.querySelector(`${placeAfter}`)
-  referenceNode.parentNode.insertBefore(element, referenceNode.nextSibling);
-  //document.body.insertBefore(element, placeBefore);
-}
 
-
-// Insert an element with a class name as a child of the third parameter
-function createAndAddChild(tag, className, node) {
-  let element = createElement(tag, className);
-  let parentNode = document.querySelector(`${node}`)
-  parentNode.appendChild(element);
-  //document.body.insertBefore(element, placeBefore);
-}
-
-
-
-// Return a new element with a certain class
-function createElement(tag, className) {
-   let element = document.createElement(tag);
-   element.className = className;
-   return element;
-}
 
 
 function createRecipeCards(data) {
@@ -230,11 +224,6 @@ function createRecipeCards(data) {
   //         CARD MB-4
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that 
 
-   //let maxColCnt = 0;
-   //createAndAddSibling("div", "row", ".col-lg-8 .card");
-   //createAndAddChild("div", "col-lg-6", ".col-lg-8 .row");
-   //createAndAddChild("div", "card mb-4", ".col-lg-6");
-
 
   //let arry = data["results"]
 
@@ -243,9 +232,8 @@ function createRecipeCards(data) {
 
 
   arry.forEach(function(recipe, i) {
-   
     if(i===0) {
-      recipeMarkup += '<div class="row">'
+      recipeMarkup += `<div class="row">`
     }
     let recipeImage = imagesPath + recipe.image;
     
@@ -264,14 +252,14 @@ function createRecipeCards(data) {
         </div>
       </div>`;
 
-    if(i!==0 && i%2 === 0){
+    if(i!==0 && i%2 !== 0){
     // add end of row ,and start new row on every 5 elements
-    content += '</div><div class="row">'
+    recipeMarkup += `</div><div class="row">`
     } 
 
   });
 
-  recipeMarkup += '</div>';
+  recipeMarkup += `</div>`;
   container.innerHTML += recipeMarkup;
 
 }
