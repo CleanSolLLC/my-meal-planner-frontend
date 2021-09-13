@@ -40,10 +40,12 @@ const arry = [{"id": 93877,
 ]
 
 document.addEventListener("DOMContentLoaded", () => {
-  getdashboardData()
+  getFoodInformation();
+  getRecipeInformation();
+
 });
 
-function getdashboardData() {
+function getFoodInformation() {
   fetch(endpoint) 
     .then(response => response.json())
     .then(food_queries => { 
@@ -51,7 +53,7 @@ function getdashboardData() {
       if (food_queries.data.length === 0) {
         return document.querySelector('.medium').innerText = "No Data Available"
       } else {
-        loaddashboardData(food_queries)  
+        loadFoodInformation(food_queries)  
       }
   })
     .catch((errors) => {
@@ -59,7 +61,7 @@ function getdashboardData() {
    });
 };
 
-function loaddashboardData(obj) {
+function loadFoodInformation(obj) {
   obj.data.forEach(foodQuery => {
     const foodQueryMarkup = 
     `<div data-id=${foodQuery.id}>
@@ -214,7 +216,21 @@ function initiateRecipeSearch(recipeCriteria) {
 }
 
 
+function getRecipeInformation() {
+  fetch(recipeEndpoint) 
+    .then(response => response.json())
+    .then(recipeData => { 
 
+      if (recipeData.data.length === 0) {
+        return document.querySelector(".col-lg-8").innerText = "No Data Available"
+      } else {
+        createRecipeCards(recipeData)  
+      }
+  })
+    .catch((errors) => {
+     alert(errors)
+   });
+};
 
 function createRecipeCards(data) {
   // COL-LG-8
@@ -247,7 +263,7 @@ function createRecipeCards(data) {
                 <p><b>Servings:</b> ${recipe.servings}</p>
                 <p><a href="${recipe.sourceUrl}">${recipe.sourceUrl}</a></p>
                 <button class="save-button" type="button" value="Save" data-id=${recipe.id}>Save</button>
-                <button class="delete-button" type="button" value="Delete" data-id=${recipe.id}>Delete</button>
+                <button class="remove-button" type="button" value="Remove" data-id=${recipe.id}>Remove</button>
             </div>
         </div>
       </div>`;
