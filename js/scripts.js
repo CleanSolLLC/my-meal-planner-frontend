@@ -1,43 +1,46 @@
 
 const endpoint = "http://localhost:3000/api/v1/food_queries";
 const imagesPath = "https://spoonacular.com/recipeImages/";
+const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 
-const arry = [{"id": 93877,
-   "title":"Beef Enchiladas",
-   "readyInMinutes":45,
-   "servings":6,
-   "sourceUrl":"http://www.marthastewart.com/344471/beef-enchiladas",
-   "openLicense":0,
-   "image":"beef-enchiladas-2-93877.png"
-   },
+
+//Test Data
+// const arry = [{"id": 93877,
+//    "title":"Beef Enchiladas",
+//    "readyInMinutes":45,
+//    "servings":6,
+//    "sourceUrl":"http://www.marthastewart.com/344471/beef-enchiladas",
+//    "openLicense":0,
+//    "image":"beef-enchiladas-2-93877.png"
+//    },
    
-   {"id": 278914,
-   "title":"Basil Beef",
-   "readyInMinutes":52,
-   "servings":6,
-   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-   "openLicense":0,
-   "image":"basil-beef-278914.jpg"
-   },
+//    {"id": 278914,
+//    "title":"Basil Beef",
+//    "readyInMinutes":52,
+//    "servings":6,
+//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+//    "openLicense":0,
+//    "image":"basil-beef-278914.jpg"
+//    },
 
-      {"id": 278914,
-   "title":"Basil Beef",
-   "readyInMinutes":52,
-   "servings":6,
-   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-   "openLicense":0,
-   "image":"basil-beef-278914.jpg"
-   },
+//       {"id": 278914,
+//    "title":"Basil Beef",
+//    "readyInMinutes":52,
+//    "servings":6,
+//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+//    "openLicense":0,
+//    "image":"basil-beef-278914.jpg"
+//    },
 
-      {"id": 278914,
-   "title":"Basil Beef",
-   "readyInMinutes":52,
-   "servings":6,
-   "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-   "openLicense":0,
-   "image":"basil-beef-278914.jpg"
-   }
-]
+//       {"id": 278914,
+//    "title":"Basil Beef",
+//    "readyInMinutes":52,
+//    "servings":6,
+//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
+//    "openLicense":0,
+//    "image":"basil-beef-278914.jpg"
+//    }
+// ]
 
 document.addEventListener("DOMContentLoaded", () => {
   getFoodInformation();
@@ -217,7 +220,7 @@ function initiateRecipeSearch(recipeCriteria) {
 
 
 function getRecipeInformation() {
-  fetch(recipeEndpoint) 
+  fetch(recipeEndPoint) 
     .then(response => response.json())
     .then(recipeData => { 
 
