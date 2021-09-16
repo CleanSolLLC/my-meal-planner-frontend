@@ -3,45 +3,6 @@ const endpoint = "http://localhost:3000/api/v1/food_queries";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 
-
-//Test Data
-// const arry = [{"id": 93877,
-//    "title":"Beef Enchiladas",
-//    "readyInMinutes":45,
-//    "servings":6,
-//    "sourceUrl":"http://www.marthastewart.com/344471/beef-enchiladas",
-//    "openLicense":0,
-//    "image":"beef-enchiladas-2-93877.png"
-//    },
-   
-//    {"id": 278914,
-//    "title":"Basil Beef",
-//    "readyInMinutes":52,
-//    "servings":6,
-//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-//    "openLicense":0,
-//    "image":"basil-beef-278914.jpg"
-//    },
-
-//       {"id": 278914,
-//    "title":"Basil Beef",
-//    "readyInMinutes":52,
-//    "servings":6,
-//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-//    "openLicense":0,
-//    "image":"basil-beef-278914.jpg"
-//    },
-
-//       {"id": 278914,
-//    "title":"Basil Beef",
-//    "readyInMinutes":52,
-//    "servings":6,
-//    "sourceUrl":"http://www.kraftrecipes.com/recipes/basil-beef-56551.aspx",
-//    "openLicense":0,
-//    "image":"basil-beef-278914.jpg"
-//    }
-// ]
-
 document.addEventListener("DOMContentLoaded", () => {
   getFoodInformation();
   getRecipeInformation();
@@ -52,9 +13,9 @@ function getFoodInformation() {
   fetch(endpoint) 
     .then(response => response.json())
     .then(food_queries => { 
-
+ 
       if (food_queries.data.length === 0) {
-        return document.querySelector('.medium').innerText = "No Data Available"
+        return document.querySelector(".card-title-questions").innerText = "No Food Related Questions Asked"
       } else {
         loadFoodInformation(food_queries)  
       }
@@ -156,7 +117,7 @@ function deleteFoodQuery(e) {
 
 document.querySelector("#button-recipe-search").addEventListener("click", function(e) {
   recipeCriteria = getFoodListValues(e);
-  initiateRecipeSearch(recipeCriteria);
+  getRecipeInformation();
 
 });  
 
@@ -192,40 +153,64 @@ function getFoodListValues(e) {
   //document.querySelector(".form-control").value;
 }
 
-function initiateRecipeSearch(recipeCriteria) {
+// function initiateRecipeSearch(recipeCriteria) {
 
-  let url = "https://webknox-recipes.p.rapidapi.com/recipes/search"
+//   //let url = "https://webknox-recipes.p.rapidapi.com/recipes/search"
 
-  url += '?' + ( new URLSearchParams( recipeCriteria ) ).toString();
+//   //url += '?' + ( new URLSearchParams( recipeCriteria ) ).toString();
 
-  fetch(url, {
-  "method": "GET",
-  "headers": {
-    "x-rapidapi-host": config["RAPID-API-HOST"],
-    "x-rapidapi-key":  config["RAPID-API-KEY"]
-  }
-})
-  .then(response => response.json())
-  .then(data => {
+//   fetch(recipeEndpoint, {
+//   "method": "GET",
+//   "headers": {
+//     "x-rapidapi-host": config["RAPID-API-HOST"],
+//     "x-rapidapi-key":  config["RAPID-API-KEY"]
+//   }
+// })
+//   .then(response => response.json())
+//   .then(data => {
 
-    createRecipeCards(data)
+//     createRecipeCards(data)
 
-  })
+//   })
 
-  .catch(err => {
-  console.error(err);
-});
+//   .catch(err => {
+//   console.error(err);
+// });
 
-}
+// }
+
+
+// function getRecipeInformation() {
+//   fetch(recipeEndpoint) 
+
+//     .then(response => response.json())
+//     .then(recipeData => { 
+
+//       if (recipeData.data.length === 0) {
+//         return document.querySelector(".recipe-container").innerText = "No Recipes Selected"
+//       } else {
+//         createRecipeCards(recipeData)  
+//       }
+//   })
+//     .catch((errors) => {
+//      alert(errors)
+//    });
+// };
 
 
 function getRecipeInformation() {
-  fetch(recipeEndPoint) 
+  fetch(recipeEndpoint, {
+     headers: {
+       'Content-Type': 'application/json',
+       'Access-Control-Allow-Origin': '*'
+     },  
+
+    })
     .then(response => response.json())
     .then(recipeData => { 
 
       if (recipeData.data.length === 0) {
-        return document.querySelector(".col-lg-8").innerText = "No Data Available"
+        return document.querySelector(".recipe-container").innerText = "No Recipes Selected"
       } else {
         createRecipeCards(recipeData)  
       }
@@ -244,9 +229,10 @@ function createRecipeCards(data) {
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that 
 
 
-  //let arry = data["results"]
+  let arry = data.data
+  //debugger;
 
-  let container = document.querySelector(".col-lg-8")
+  let container = document.querySelector("#recipe-cards")
   let recipeMarkup = ''
 
 
@@ -254,19 +240,19 @@ function createRecipeCards(data) {
     if(i===0) {
       recipeMarkup += `<div class="row">`
     }
-    let recipeImage = imagesPath + recipe.image;
+    let recipeImage = imagesPath + recipe.attributes.image;
     
      recipeMarkup += 
     `<div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-body">
                 <img class="card-img-top" src=${recipeImage} />
-                <b>Title: ${recipe.title}</b>
-                <p><b>Ready In:</b> ${recipe.readyInMinutes}</p>
-                <p><b>Servings:</b> ${recipe.servings}</p>
-                <p><a href="${recipe.sourceUrl}">${recipe.sourceUrl}</a></p>
-                <button class="save-button" type="button" value="Save" data-id=${recipe.id}>Save</button>
-                <button class="remove-button" type="button" value="Remove" data-id=${recipe.id}>Remove</button>
+                <b>Title: ${recipe.attributes.title}</b>
+                <p><b>Ready In:</b> ${recipe.attributes.ready_in_minutes}</p>
+                <p><b>Servings:</b> ${recipe.attributes.servings}</p>
+                <p><a href="${recipe.attributes.source_url}"target="_blank">${recipe.attributes.source_url}</a></p>
+                <button class="save-button" type="button" value="Save" data-id=${recipe.attributes.id}>Save</button>
+                <button class="remove-button" type="button" value="Remove" data-id=${recipe.attributes.id}>Remove</button>
             </div>
         </div>
       </div>`;
@@ -283,7 +269,7 @@ function createRecipeCards(data) {
 
 }
 
-createRecipeCards(arry);
+//createRecipeCards(arry);
 
 
 
