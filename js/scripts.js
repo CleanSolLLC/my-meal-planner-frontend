@@ -3,6 +3,8 @@ const endpoint = "http://localhost:3000/api/v1/food_queries";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 
+const btnArry = document.getElementsByClassName("delete-button");
+
 document.addEventListener("DOMContentLoaded", () => {
   getFoodInformation();
   getRecipeInformation();
@@ -37,16 +39,20 @@ function loadFoodInformation(obj) {
     document.querySelector('#food-questions').innerHTML += foodQueryMarkup
   });
 
-    let questions = document.getElementById("food-questions")
-    questions.querySelector(".delete-button").addEventListener("click", function(e) {
+    // let questions = document.getElementById("food-questions")
+    // questions.querySelector(".delete-button").addEventListener("click", function(e) {
     
-    if (e.type === "click") {
-      deleteFoodQuery(e)
-    }else { 
-      initiateFoodQuery(e);
-    }
-  });
-
+    const btnArry = document.getElementsByClassName("delete-button")
+    for (var i = 0; i < btnArry.length; i++) {
+        var self = btnArry[i];
+        self.addEventListener('click', function (e) {  
+        if (e.type === "click") {
+          deleteFoodQuery(e)
+        }else { 
+          initiateFoodQuery(e);
+        }
+    });
+  }
 }
 
 
@@ -83,10 +89,6 @@ function initiateFoodQuery(e) {
    .catch((errors) => {
      alert(errors);
    });
-
-document.querySelector("button").addEventListener("click", function(e) {
-  deleteFoodQuery(e);
-  });
 
 }
 
