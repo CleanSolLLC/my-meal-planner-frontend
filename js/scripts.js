@@ -29,6 +29,10 @@ function getFoodInformation() {
 
 function loadFoodInformation(obj) {
   obj.data.forEach(foodQuery => {
+
+    let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes)
+
+    debugger;
     const foodQueryMarkup = 
     `<div data-id=${foodQuery.id}>
       <b>Q. ${foodQuery.attributes.search}</b>
