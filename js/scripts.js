@@ -32,19 +32,9 @@ function loadFoodInformation(obj) {
 
     let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes)
 
-    debugger;
-    const foodQueryMarkup = 
-    `<div data-id=${foodQuery.id}>
-      <b>Q. ${foodQuery.attributes.search}</b>
-      <p><b>A.</b> ${foodQuery.attributes.response}</p>
-      <button class="delete-button" type="button" value="Delete" data-id=${foodQuery.id}>Delete</button>
-    <div>
-    <br></br>`;
-    document.querySelector('#food-questions').innerHTML += foodQueryMarkup
+    document.querySelector('#food-questions').innerHTML += newFoodQuery.renderCard()
   });
 
-    // let questions = document.getElementById("food-questions")
-    // questions.querySelector(".delete-button").addEventListener("click", function(e) {
     
     const btnArry = document.getElementsByClassName("delete-button")
     for (var i = 0; i < btnArry.length; i++) {
