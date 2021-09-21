@@ -1,5 +1,5 @@
 
-const endpoint = "http://localhost:3000/api/v1/food_queries";
+const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function getFoodInformation() {
-  fetch(endpoint) 
+  fetch(foodQueryEndpoint) 
     .then(response => response.json())
     .then(food_queries => { 
  
@@ -32,7 +32,7 @@ function loadFoodInformation(obj) {
 
     let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes)
 
-    document.querySelector('#food-questions').innerHTML += newFoodQuery.renderCard()
+    document.querySelector('#food-questions').innerHTML += newFoodQuery.renderFoodQueryCard()
   });
 
     
@@ -42,12 +42,15 @@ function loadFoodInformation(obj) {
         self.addEventListener('click', function (e) {  
         if (e.type === "click") {
           deleteFoodQuery(e)
-        }else { 
-          initiateFoodQuery(e);
         }
+
     });
   }
 }
+
+document.getElementById("button-search").addEventListener('click', function (e) {
+  initiateFoodQuery(e)
+})
 
 
 function initiateFoodQuery(e) {
@@ -69,14 +72,9 @@ function initiateFoodQuery(e) {
        alert(data.error)
      } else {
 
-            const foodQueryMarkup = 
-            `<b>Q. ${data.search}</b>
-            <p><b>A.</b> ${data.response}</p>
-            <button type="submit" value="Submit" data-id=${foodQuery.id}>Delete</button>
-            <div>
-            <br></br>`;
-            document.querySelector('#food-questions').innerHTML += foodQueryMarkup 
-            //console.log('Success:', data);
+    let newFoodQuery = new FoodQuery(data, data)
+
+    document.querySelector('#food-questions').innerHTML += newFoodQuery.renderFoodQueryCard()
             }
 
   })
@@ -89,7 +87,7 @@ function initiateFoodQuery(e) {
 function deleteFoodQuery(e) {
   e.preventDefault()
   let data = e.target.attributes[3].value
-  let url = endpoint + '/' + data
+  let url = foodQueryEndpoint + '/' + data
 
   fetch(url, {
     method: 'DELETE', 

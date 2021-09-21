@@ -6,7 +6,7 @@ class FoodQuery {
 	  FoodQuery.all.push(this)
 	}
 
-    renderCard() {
+    renderFoodQueryCard() {
      let a = 
       `<div data-id=${this.id}>
         <b>Q. ${this.search}</b>
