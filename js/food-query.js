@@ -7,7 +7,7 @@ class FoodQuery {
 	}
 
     renderFoodQueryCard() {
-     let a = 
+     let foodQueryMarkup = 
       `<div data-id=${this.id}>
         <b>Q. ${this.search}</b>
         <p><b>A.</b> ${this.response}</p>
@@ -15,7 +15,7 @@ class FoodQuery {
         <div>
         <br></br>`;  
 
-        return a
+        return foodQueryMarkup
 
     }
 }

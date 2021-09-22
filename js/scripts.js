@@ -146,26 +146,13 @@ function printRecipeCards(obj) {
   let container = document.querySelector("#recipe-cards")
   let recipeMarkup = ''
 
-
   arry.forEach(function(recipe, i) {
     if(i===0) {
       recipeMarkup += `<div class="row">`
     }
-    let recipeImage = imagesPath + recipe.attributes.image;
-    
-     recipeMarkup += 
-    `<div class="col-lg-6">
-        <div class="card mb-4">
-            <div class="card-body">
-                <img class="card-img-top" src=${recipeImage} style="width:285px;height:285px;"/>
-                <b>Title: ${recipe.attributes.title}</b>
-                <p><b>Ready In:</b> ${recipe.attributes.readyInMinutes}</p>
-                <p><b>Servings:</b> ${recipe.attributes.servings}</p>
-                <p><a href="${recipe.attributes.sourceUrl}"target="_blank">${recipe.attributes.sourceUrl}</a></p>
-                <button class="delete-recipe-button" type="button" value="Delete" data-id=${recipe.id}>Delete</button>
-            </div>
-        </div>
-      </div>`;
+    let newRecipe = new Recipe(recipe, recipe.attributes, imagesPath);
+    recipeMarkup += newRecipe.renderRecipeCard()
+
 
     if(i!==0 && i%2 !== 0){
     // add end of row ,and start new row on every 5 elements
