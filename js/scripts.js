@@ -237,8 +237,6 @@ function getRecipeListValues(e) {
     return newObj;
   }
 
-  //document.querySelector(".form-control").value;
-
 
 function initiateRecipeSearch(recipeCriteria) {
 
@@ -266,10 +264,6 @@ function initiateRecipeSearch(recipeCriteria) {
 
 
 function postRecipeData(data) {
-  // document.querySelector('.medium').innerText = ""
-  // const search = document.querySelector(".form-control").value;
-  // const data = {search: search};
-
   fetch("http://localhost:3000/api/v1/recipes", {
     method: 'POST', 
     headers: {
