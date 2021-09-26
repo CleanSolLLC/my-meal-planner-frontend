@@ -1,21 +1,18 @@
 class Recipe {
-	constructor(recipe, recipeAttributes, imagePathUrl) {
-        debugger
-	  this.id = recipe.id
-	  this.title = recipeAttributes["title"]
-	  this.readyInMinutes = recipeAttributes["readyInMinutes"]
-      this.servings = recipeAttributes["servings"]
-      this.sourceUrl = recipeAttributes["sourceUrl"]
-      this.image = recipeAttributes["image"]
-      this.imagePathUrl = imagePathUrl
-      this.recipeImage = this.imagePathUrl + this.image;
-	  Recipe.all.push(this)
-	}
+  constructor(recipe, recipeAttributes, imagePathUrl) {
+    this.id = recipe.id;
+    this.title = recipeAttributes["title"];
+    this.readyInMinutes = recipeAttributes["readyInMinutes"];
+    this.servings = recipeAttributes["servings"];
+    this.sourceUrl = recipeAttributes["sourceUrl"];
+    this.image = recipeAttributes["image"];
+    this.imagePathUrl = imagePathUrl;
+    this.recipeImage = this.imagePathUrl + this.image;
+    Recipe.all.push(this);
+  }
 
-    renderRecipeCard() {
-
-     let recipeMarkup = 
-    `<div class="col-lg-6">
+  renderRecipeCard() {
+    let recipeMarkup = `<div class="col-lg-6">
         <div class="card mb-4">
             <div class="card-body">
                 <img class="card-img-top" src=${this.recipeImage} style="width:285px;height:285px;"/>
@@ -28,10 +25,8 @@ class Recipe {
         </div>
       </div>`;
 
-      return recipeMarkup
-
-    }
-
+    return recipeMarkup;
+  }
 }
 
-Recipe.all = []
+Recipe.all = [];
