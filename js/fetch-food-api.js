@@ -6,8 +6,36 @@ class FetchFoodApi {
   getFoodFetch() {
     return fetch(this.url)
    .then( response => response.json() )
-  }
-};
+  };
+
+  postFoodFetch(data) {
+    return fetch(this.url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }) 
+
+    .then( response => response.json() )
+  };
+
+  deleteFoodFetch(data) {
+    return fetch(this.url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: null,
+    }) 
+
+    .then( response => response.json() )
+  };
+
+
+}
+
+
   
 
 
@@ -40,23 +68,7 @@ class FetchFoodApi {
 
 
 
-//   fetch(url, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: null,
-//   })
-//     .then((response) => response.json())
-//     .then((json) => {
-//       //return json
-//       window.location.reload();
-//     })
 
-//     .catch((errors) => {
-//       alert(errors);
-//     });
-// }
 
 
 
@@ -83,27 +95,3 @@ class FetchFoodApi {
 
 
 
-
-// }
-
-//   fetch("http://localhost:3000/api/v1/food_queries", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {
-//       if (!!data.error) {
-//         alert(data.error);
-//       } else {
-//         let newFoodQuery = new FoodQuery(data, data);
-
-//         document.querySelector("#food-questions").innerHTML +=
-//           newFoodQuery.renderFoodQueryCard();
-//       }
-//     })
-//     .catch((errors) => {
-//       alert(errors);
-//     });

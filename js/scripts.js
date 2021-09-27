@@ -57,15 +57,9 @@ function initiateFoodQuery(e) {
   const search = document.querySelector(".form-control").value;
   const data = { search: search };
 
-  fetch("http://localhost:3000/api/v1/food_queries", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
+  fetchFoodApi = new FetchFoodApi(foodQueryEndpoint)
+  fetchFoodApi.postFoodFetch(data) 
+  .then((data) => {
       if (!!data.error) {
         alert(data.error);
       } else {
@@ -80,24 +74,18 @@ function initiateFoodQuery(e) {
     });
 }
 
+
 function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
   let url = foodQueryEndpoint + "/" + data;
 
-  fetch(url, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: null,
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      //return json
-      window.location.reload();
-    })
+  fetchFoodApi = new FetchFoodApi(url)
+  fetchFoodApi.deleteFoodFetch() 
+  .then((json) => {
 
+     window.location.reload();
+     })
     .catch((errors) => {
       alert(errors);
     });
