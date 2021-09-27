@@ -26,11 +26,13 @@ class FetchFoodApi {
       headers: {
         "Content-Type": "application/json",
       },
-      body: null,
+      body: JSON.stringify(data),
     }) 
 
     .then( response => response.json() )
   };
+
+
 
 
 }
@@ -58,17 +60,6 @@ class FetchFoodApi {
 //     .catch((err) => {
 //       console.error(err);
 //     });
-
-
-
-
-
-
-
-
-
-
-
 
 
 

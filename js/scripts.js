@@ -1,4 +1,3 @@
-const baseUrl = "http://localhost:3000/api/v1/";
 const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 const imagesPath = "https://spoonacular.com/recipeImages/";
@@ -92,24 +91,19 @@ function deleteFoodQuery(e) {
 }
 
 function getRecipeInformation() {
-  fetch(recipeEndpoint, {
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  })
-    .then((response) => response.json())
-    .then((recipeData) => {
-      if (recipeData.data.length === 0) {
-        return (document.querySelector(".recipe-container").innerText =
-          "No Recipes Selected");
-      } else {
-        printRecipeCards(recipeData);
-      }
-    })
-    .catch((errors) => {
-      alert(errors);
-    });
+  fetchFoodApi = new FetchFoodApi(recipeEndpoint)
+  fetchFoodApi.getFoodFetch() 
+  .then((result ) => {
+    if (result.data.length === 0) {
+         return (document.querySelector(".card-title-questions").innerText =
+           "No Recipes Selected");
+       } else {
+         printRecipeCards(result);
+       }
+     })
+  .catch((errors) => {
+     alert(errors);
+  });
 }
 
 function printRecipeCards(obj) {
