@@ -26,7 +26,7 @@ class FetchFoodApi {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: null,
     }) 
 
     .then( response => response.json() )

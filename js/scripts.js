@@ -151,23 +151,43 @@ function deleteRecipe(e) {
   let data = e.target.attributes[3].value;
   let url = recipeEndpoint + "/" + data;
 
-  fetch(url, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: null,
-  })
-    .then((response) => response.json())
-    .then((json) => {
-      //return json
-      window.location.reload();
-    })
+  fetchFoodApi = new FetchFoodApi(url)
+  fetchFoodApi.deleteFoodFetch(url) 
+  .then((json) => {
 
+     window.location.reload();
+     })
     .catch((errors) => {
       alert(errors);
     });
 }
+
+
+
+
+
+// function deleteRecipe(e) {
+//   e.preventDefault();
+//   let data = e.target.attributes[3].value;
+//   let url = recipeEndpoint + "/" + data;
+
+//   fetch(url, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: null,
+//   })
+//     .then((response) => response.json())
+//     .then((json) => {
+//       //return json
+//       window.location.reload();
+//     })
+
+//     .catch((errors) => {
+//       alert(errors);
+//     });
+// }
 
 document
   .querySelector("#button-recipe-search")
