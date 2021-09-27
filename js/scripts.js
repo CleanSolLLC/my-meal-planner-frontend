@@ -208,6 +208,7 @@ function initiateRecipeSearch(recipeCriteria) {
   fetchFoodApi = new FetchFoodApi(url, headers)
   fetchFoodApi.getFoodFetch() 
   .then((result ) => {
+      postRecipeData(result);
       printRecipeCards(result);
   })
   .catch((errors) => {
@@ -217,19 +218,11 @@ function initiateRecipeSearch(recipeCriteria) {
 }
 
 function postRecipeData(data) {
-  fetch("http://localhost:3000/api/v1/recipes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  let headers = {
+     "Content-Type": "application/json"
+  }
+  fetchFoodApi = new FetchFoodApi(recipeEndpoint, headers)
+  fetchFoodApi.postFoodFetch(data) 
   window.location
     .reload()
-    // .then(res => res.text())          // convert to plain text
-    // .then(text => console.log(text))  // then log it out
-
-    .catch((errors) => {
-      alert(errors);
-    });
 }
