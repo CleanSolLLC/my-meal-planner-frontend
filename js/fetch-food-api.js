@@ -1,6 +1,7 @@
 class FetchFoodApi {
-  constructor(url) {
+  constructor(url, options) {
     this.url = url;
+    this.options = options || {};
   }
 
   getFoodFetch() {

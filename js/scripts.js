@@ -17,7 +17,7 @@ function getFoodInformation() {
          return (document.querySelector(".card-title-questions").innerText =
            "No Food Related Questions Asked");
        } else {
-         loadFoodInformation(result);
+         printFoodQueryCard(result);
        }
      })
   .catch((errors) => {
@@ -25,7 +25,7 @@ function getFoodInformation() {
   });
 }
 
-function loadFoodInformation(obj) {
+function printFoodQueryCard(obj) {
   obj.data.forEach((foodQuery) => {
     let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes);
 
@@ -127,7 +127,7 @@ function printRecipeCards(obj) {
     recipeMarkup += newRecipe.renderRecipeCard();
 
     if (i !== 0 && i % 2 !== 0) {
-      // add end of row ,and start new row on every 5 elements
+      // add end of row ,and start new row on every 2 elements
       recipeMarkup += `</div><div class="row">`;
     }
   });
@@ -161,33 +161,6 @@ function deleteRecipe(e) {
       alert(errors);
     });
 }
-
-
-
-
-
-// function deleteRecipe(e) {
-//   e.preventDefault();
-//   let data = e.target.attributes[3].value;
-//   let url = recipeEndpoint + "/" + data;
-
-//   fetch(url, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: null,
-//   })
-//     .then((response) => response.json())
-//     .then((json) => {
-//       //return json
-//       window.location.reload();
-//     })
-
-//     .catch((errors) => {
-//       alert(errors);
-//     });
-// }
 
 document
   .querySelector("#button-recipe-search")
@@ -225,6 +198,11 @@ function initiateRecipeSearch(recipeCriteria) {
   let url = "https://webknox-recipes.p.rapidapi.com/recipes/search";
 
   url += "?" + new URLSearchParams(recipeCriteria).toString();
+
+
+
+
+
 
   fetch(url, {
     method: "GET",
