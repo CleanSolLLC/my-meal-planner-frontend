@@ -1,11 +1,15 @@
 class FetchFoodApi {
-  constructor(url, options) {
+  constructor(url, options = {}) {
     this.url = url;
-    this.options = options || {};
+    this.header = options
   }
 
   getFoodFetch() {
-    return fetch(this.url)
+    return fetch(this.url, {
+      method: "GET",
+      headers: this.header
+    })
+
    .then( response => response.json() )
   };
 

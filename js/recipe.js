@@ -1,11 +1,11 @@
 class Recipe {
-  constructor(recipe, recipeAttributes, imagePathUrl) {
+  constructor(recipe, recipeAttributes = {}, imagePathUrl) {
     this.id = recipe.id;
-    this.title = recipeAttributes["title"];
-    this.readyInMinutes = recipeAttributes["readyInMinutes"];
-    this.servings = recipeAttributes["servings"];
-    this.sourceUrl = recipeAttributes["sourceUrl"];
-    this.image = recipeAttributes["image"];
+    this.title = recipeAttributes["title"] || recipe.title;
+    this.readyInMinutes = recipeAttributes["readyInMinutes"] || recipe.readyInMinutes;
+    this.servings = recipeAttributes["servings"] || recipe.servings;
+    this.sourceUrl = recipeAttributes["sourceUrl"] || recipe.sourceUrl;
+    this.image = recipeAttributes["image"] || recipe.image;
     this.imagePathUrl = imagePathUrl;
     this.recipeImage = this.imagePathUrl + this.image;
     Recipe.all.push(this);

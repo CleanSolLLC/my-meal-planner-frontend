@@ -14,7 +14,7 @@ function getFoodInformation() {
   fetchFoodApi.getFoodFetch() 
   .then((result ) => {
     if (result.data.length === 0) {
-         return (document.querySelector(".card-title-questions").innerText =
+         return (document.querySelector("#food-questions").innerText =
            "No Food Related Questions Asked");
        } else {
          printFoodQueryCard(result);
@@ -95,7 +95,7 @@ function getRecipeInformation() {
   fetchFoodApi.getFoodFetch() 
   .then((result ) => {
     if (result.data.length === 0) {
-         return (document.querySelector(".card-title-questions").innerText =
+         return (document.querySelector("#recipe-cards").innerText =
            "No Recipes Selected");
        } else {
          printRecipeCards(result);
@@ -114,7 +114,8 @@ function printRecipeCards(obj) {
   //         CARD MB-4
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that
 
-  let arry = obj.data;
+
+  let arry = obj.data || obj.results
 
   let container = document.querySelector("#recipe-cards");
   let recipeMarkup = "";
@@ -196,28 +197,23 @@ function getRecipeListValues(e) {
 
 function initiateRecipeSearch(recipeCriteria) {
   let url = "https://webknox-recipes.p.rapidapi.com/recipes/search";
-
   url += "?" + new URLSearchParams(recipeCriteria).toString();
 
-
-
-
-
-
-  fetch(url, {
-    method: "GET",
-    headers: {
+  let headers = {
+      "Content-Type": "application/json",
       "x-rapidapi-host": config["RAPID-API-HOST"],
       "x-rapidapi-key": config["RAPID-API-KEY"],
-    },
+  }
+
+  fetchFoodApi = new FetchFoodApi(url, headers)
+  fetchFoodApi.getFoodFetch() 
+  .then((result ) => {
+      printRecipeCards(result);
   })
-    .then((response) => response.json())
-    .then((data) => {
-      postRecipeData(data);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  .catch((errors) => {
+     alert(errors);
+  });
+
 }
 
 function postRecipeData(data) {
