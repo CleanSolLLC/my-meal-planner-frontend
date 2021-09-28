@@ -2,7 +2,8 @@ class Recipe {
   constructor(recipe, recipeAttributes = {}, imagePathUrl) {
     this.id = recipe.id;
     this.title = recipeAttributes["title"] || recipe.title;
-    this.readyInMinutes = recipeAttributes["readyInMinutes"] || recipe.readyInMinutes;
+    this.readyInMinutes =
+      recipeAttributes["readyInMinutes"] || recipe.readyInMinutes;
     this.servings = recipeAttributes["servings"] || recipe.servings;
     this.sourceUrl = recipeAttributes["sourceUrl"] || recipe.sourceUrl;
     this.image = recipeAttributes["image"] || recipe.image;

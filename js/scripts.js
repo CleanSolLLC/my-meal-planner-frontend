@@ -9,20 +9,43 @@ document.addEventListener("DOMContentLoaded", () => {
   getRecipeInformation();
 });
 
-function getFoodInformation() {
-  fetchFoodApi = new FetchFoodApi(foodQueryEndpoint)
-  fetchFoodApi.getFoodFetch() 
-  .then((result ) => {
-    if (result.data.length === 0) {
-         return (document.querySelector("#food-questions").innerText =
-           "No Food Related Questions Asked");
-       } else {
-         printFoodQueryCard(result);
-       }
-     })
-  .catch((errors) => {
-     alert(errors);
+document
+  .getElementById("button-search")
+  .addEventListener("click", function (e) {
+    if (e.currentTarget.value === "") {
+      alert("Serach Field Cannot Be Blank")
+    } else
+    initiateFoodQuery(e);
   });
+
+document
+  .querySelector("#button-recipe-search")
+  .addEventListener("click", function (e) {
+    let x = document.querySelector("#typeText").value
+    if(x === "") {
+      alert("Recipe Serach Field Cannot Be Blank")
+    }else
+      recipeCriteria = getRecipeListValues(e);
+      initiateRecipeSearch(recipeCriteria);
+  });
+
+
+
+function getFoodInformation() {
+  fetchFoodApi = new FetchFoodApi(foodQueryEndpoint);
+  fetchFoodApi
+    .getFoodFetch()
+    .then((result) => {
+      if (result.data.length === 0) {
+        return (document.querySelector("#food-questions").innerText =
+          "No Food Related Questions Asked");
+      } else {
+        printFoodQueryCard(result);
+      }
+    })
+    .catch((errors) => {
+      alert(errors);
+    });
 }
 
 function printFoodQueryCard(obj) {
@@ -44,11 +67,6 @@ function printFoodQueryCard(obj) {
   }
 }
 
-document
-  .getElementById("button-search")
-  .addEventListener("click", function (e) {
-    initiateFoodQuery(e);
-  });
 
 function initiateFoodQuery(e) {
   e.preventDefault();
@@ -56,9 +74,10 @@ function initiateFoodQuery(e) {
   const search = document.querySelector(".form-control").value;
   const data = { search: search };
 
-  fetchFoodApi = new FetchFoodApi(foodQueryEndpoint)
-  fetchFoodApi.postFoodFetch(data) 
-  .then((data) => {
+  fetchFoodApi = new FetchFoodApi(foodQueryEndpoint);
+  fetchFoodApi
+    .postFoodFetch(data)
+    .then((data) => {
       if (!!data.error) {
         alert(data.error);
       } else {
@@ -73,37 +92,37 @@ function initiateFoodQuery(e) {
     });
 }
 
-
 function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
   let url = foodQueryEndpoint + "/" + data;
 
-  fetchFoodApi = new FetchFoodApi(url)
-  fetchFoodApi.deleteFoodFetch() 
-  .then((json) => {
-
-     window.location.reload();
-     })
+  fetchFoodApi = new FetchFoodApi(url);
+  fetchFoodApi
+    .deleteFoodFetch()
+    .then((json) => {
+      window.location.reload();
+    })
     .catch((errors) => {
       alert(errors);
     });
 }
 
 function getRecipeInformation() {
-  fetchFoodApi = new FetchFoodApi(recipeEndpoint)
-  fetchFoodApi.getFoodFetch() 
-  .then((result ) => {
-    if (result.data.length === 0) {
-         return (document.querySelector("#recipe-cards").innerText =
-           "No Recipes Selected");
-       } else {
-         printRecipeCards(result);
-       }
-     })
-  .catch((errors) => {
-     alert(errors);
-  });
+  fetchFoodApi = new FetchFoodApi(recipeEndpoint);
+  fetchFoodApi
+    .getFoodFetch()
+    .then((result) => {
+      if (result.data.length === 0) {
+        return (document.querySelector("#recipe-cards").innerText =
+          "No Recipes Selected");
+      } else {
+        printRecipeCards(result);
+      }
+    })
+    .catch((errors) => {
+      alert(errors);
+    });
 }
 
 function printRecipeCards(obj) {
@@ -114,8 +133,7 @@ function printRecipeCards(obj) {
   //         CARD MB-4
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that
 
-
-  let arry = obj.data || obj.results
+  let arry = obj.data || obj.results;
 
   let container = document.querySelector("#recipe-cards");
   let recipeMarkup = "";
@@ -152,23 +170,17 @@ function deleteRecipe(e) {
   let data = e.target.attributes[3].value;
   let url = recipeEndpoint + "/" + data;
 
-  fetchFoodApi = new FetchFoodApi(url)
-  fetchFoodApi.deleteFoodFetch(url) 
-  .then((json) => {
-
-     window.location.reload();
-     })
+  fetchFoodApi = new FetchFoodApi(url);
+  fetchFoodApi
+    .deleteFoodFetch(url)
+    .then((json) => {
+      window.location.reload();
+    })
     .catch((errors) => {
       alert(errors);
     });
 }
 
-document
-  .querySelector("#button-recipe-search")
-  .addEventListener("click", function (e) {
-    recipeCriteria = getRecipeListValues(e);
-    initiateRecipeSearch(recipeCriteria);
-  });
 
 function getRecipeListValues(e) {
   e.preventDefault();
@@ -200,29 +212,28 @@ function initiateRecipeSearch(recipeCriteria) {
   url += "?" + new URLSearchParams(recipeCriteria).toString();
 
   let headers = {
-      "Content-Type": "application/json",
-      "x-rapidapi-host": config["RAPID-API-HOST"],
-      "x-rapidapi-key": config["RAPID-API-KEY"],
-  }
+    "Content-Type": "application/json",
+    "x-rapidapi-host": config["RAPID-API-HOST"],
+    "x-rapidapi-key": config["RAPID-API-KEY"],
+  };
 
-  fetchFoodApi = new FetchFoodApi(url, headers)
-  fetchFoodApi.getFoodFetch() 
-  .then((result ) => {
+  fetchFoodApi = new FetchFoodApi(url, headers);
+  fetchFoodApi
+    .getFoodFetch()
+    .then((result) => {
       postRecipeData(result);
       printRecipeCards(result);
-  })
-  .catch((errors) => {
-     alert(errors);
-  });
-
+    })
+    .catch((errors) => {
+      alert(errors);
+    });
 }
 
 function postRecipeData(data) {
   let headers = {
-     "Content-Type": "application/json"
-  }
-  fetchFoodApi = new FetchFoodApi(recipeEndpoint, headers)
-  fetchFoodApi.postFoodFetch(data) 
-  window.location
-    .reload()
+    "Content-Type": "application/json",
+  };
+  fetchFoodApi = new FetchFoodApi(recipeEndpoint, headers);
+  fetchFoodApi.postFoodFetch(data);
+  window.location.reload();
 }
