@@ -14,7 +14,7 @@ document
   .addEventListener("click", function (e) {
     let x = document.querySelector(".form-control").value
     if (x === "") {
-      alert("Serach Field Cannot Be Blank")
+      alert("Search Field Cannot Be Blank")
     } else
     initiateFoodQuery(e);
   });
@@ -24,7 +24,7 @@ document
   .addEventListener("click", function (e) {
     let x = document.querySelector("#typeText").value
     if(x === "") {
-      alert("Recipe Serach Field Cannot Be Blank")
+      alert("Recipe Search Field Cannot Be Blank")
     }else
       recipeCriteria = getRecipeListValues(e);
       initiateRecipeSearch(recipeCriteria);
@@ -99,12 +99,11 @@ function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
   let url = foodQueryEndpoint + "/" + data;
-
+  e.currentTarget.parentElement.remove();
   fetchFoodApi = new FetchFoodApi(url);
   fetchFoodApi
     .deleteFoodFetch()
     .then((json) => {
-      window.location.reload();
     })
     .catch((errors) => {
       alert(errors);
@@ -137,18 +136,18 @@ function printRecipeCards(obj) {
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that
 
   let arry = obj.data || obj.results;
-
   let container = document.querySelector("#recipe-cards");
   let recipeMarkup = "";
-
+ 
   arry.forEach(function (recipe, i) {
+
     if (i === 0) {
       recipeMarkup += `<div class="row">`;
     }
     let newRecipe = new Recipe(recipe, recipe.attributes, imagesPath);
     recipeMarkup += newRecipe.renderRecipeCard();
 
-    if (i !== 0 && i % 2 !== 0) {
+    if (i !== 0 && i % 2 !== 0 ) {
       // add end of row ,and start new row on every 2 elements
       recipeMarkup += `</div><div class="row">`;
     }
@@ -172,12 +171,12 @@ function deleteRecipe(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
   let url = recipeEndpoint + "/" + data;
-
+  e.currentTarget.parentElement.remove();
   fetchFoodApi = new FetchFoodApi(url);
   fetchFoodApi
     .deleteFoodFetch(url)
     .then((json) => {
-      window.location.reload();
+
     })
     .catch((errors) => {
       alert(errors);
@@ -242,5 +241,4 @@ function postRecipeData(data) {
   };
   fetchFoodApi = new FetchFoodApi(recipeEndpoint, headers);
   fetchFoodApi.postFoodFetch(data);
-  window.location.reload();
 }
