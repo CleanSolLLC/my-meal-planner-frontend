@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document
   .getElementById("button-search")
   .addEventListener("click", function (e) {
-    if (e.currentTarget.value === "") {
+    let x = document.querySelector(".form-control").value
+    if (x === "") {
       alert("Serach Field Cannot Be Blank")
     } else
     initiateFoodQuery(e);
@@ -37,8 +38,10 @@ function getFoodInformation() {
     .getFoodFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        return (document.querySelector("#food-questions").innerText =
-          "No Food Related Questions Asked");
+        div = document.createElement("div");
+        div.className = "data-status"; 
+        div.innerText ="No Food Related Questions Asked";
+        document.querySelector(".card-body").append(div);
       } else {
         printFoodQueryCard(result);
       }
@@ -70,7 +73,7 @@ function printFoodQueryCard(obj) {
 
 function initiateFoodQuery(e) {
   e.preventDefault();
-  document.querySelector(".medium").innerText = "";
+  //document.querySelector(".medium").innerText = "";
   const search = document.querySelector(".form-control").value;
   const data = { search: search };
 
@@ -221,8 +224,12 @@ function initiateRecipeSearch(recipeCriteria) {
   fetchFoodApi
     .getFoodFetch()
     .then((result) => {
-      postRecipeData(result);
-      printRecipeCards(result);
+      if (result.results.length === 0) {
+        return alert("No Recipes Found Please Try Again")
+      }else {
+        postRecipeData(result);
+        printRecipeCards(result);
+      }
     })
     .catch((errors) => {
       alert(errors);
