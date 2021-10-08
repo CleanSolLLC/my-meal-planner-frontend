@@ -1,18 +1,17 @@
-class FetchFoodApi {
-  
+class FetchCategoryApi {
   constructor(url, options = {}) {
     this.url = url;
     this.header = options;
   }
 
-  getFoodFetch() {
+  getCategoryFetch() {
     return fetch(this.url, {
       method: "GET",
       headers: this.header,
     }).then((response) => response.json());
   }
 
-  postFoodFetch(data) {
+  postCategoryFetch(data) {
     return fetch(this.url, {
       method: "POST",
       headers: {
@@ -22,7 +21,7 @@ class FetchFoodApi {
     }).then((response) => response.json());
   }
 
-  deleteFoodFetch(data) {
+  deleteCategoryFetch(data) {
     return fetch(this.url, {
       method: "DELETE",
       headers: {
