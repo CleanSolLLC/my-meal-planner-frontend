@@ -34,16 +34,6 @@ function attachListeners() {
       } else initiateRecipeSearch(e)
     });
 
-  const btnArry = document.getElementsByClassName("delete-recipe-button");
-  for (var i = 0; i < btnArry.length; i++) {
-    var self = btnArry[i];
-    self.addEventListener("click", function (e) {
-      if (e.type === "click") {
-        deleteRecipe(e);
-      }
-    });
-  }
-
 };
 
 function getFoodInformation() {
@@ -173,6 +163,16 @@ function printRecipeCards(obj) {
 
   recipeMarkup += `</div>`;
   container.innerHTML += recipeMarkup;
+
+  const btnArry = document.getElementsByClassName("delete-recipe-button");
+  for (var i = 0; i < btnArry.length; i++) {
+    var self = btnArry[i];
+    self.addEventListener("click", function (e) {
+      if (e.type === "click") {
+        deleteRecipe(e);
+      }
+    });
+  }
 }
 
 
@@ -253,6 +253,7 @@ function initiateRecipeSearch(e) {
 
 
 function postRecipeData(data) {
+  debugger
   let headers = {
     "Content-Type": "application/json",
   };
