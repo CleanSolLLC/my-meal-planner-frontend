@@ -253,7 +253,7 @@ function initiateRecipeSearch(e) {
 
 
 function postRecipeData(data) {
-  debugger
+  //debugger
   let headers = {
     "Content-Type": "application/json",
   };
