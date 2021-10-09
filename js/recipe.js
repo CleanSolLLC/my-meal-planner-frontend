@@ -2,8 +2,7 @@ class Recipe {
   constructor(recipe, imagePathUrl) {
     this.id = recipe.id;
     this.title = recipe.attributes.title;
-    this.readyInMinutes =
-      recipe.attributes.readyInMinutes;
+    this.readyInMinutes = recipe.attributes.readyInMinutes;
     this.servings = recipe.attributes.servings;
     this.sourceUrl = recipe.attributes.sourceUrl;
     this.image = recipe.attributes.image;

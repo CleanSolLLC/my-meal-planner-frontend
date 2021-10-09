@@ -1,8 +1,8 @@
 class FoodQuery {
-  constructor(foodQuery, foodQueryAtrributes) {
+  constructor(foodQuery, foodQueryAtrributes = {}) {
     this.id = foodQuery.id;
-    this.search = foodQueryAtrributes["search"];
-    this.response = foodQueryAtrributes["response"];
+    this.search = foodQueryAtrributes.search || foodQuery.search;
+    this.response = foodQueryAtrributes.response || foodQuery.response;
     FoodQuery.all.push(this);
   }
 

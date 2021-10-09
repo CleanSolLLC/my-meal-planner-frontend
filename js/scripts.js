@@ -7,14 +7,13 @@ const imagesPath = "https://spoonacular.com/recipeImages/";
 
 const btnArry = document.getElementsByClassName("delete-button");
 
-function init () {
+function init() {
   getFoodInformation();
   getRecipeInformation();
   attachListeners();
-};
+}
 
 function attachListeners() {
-
   document
     .getElementById("button-search")
     .addEventListener("click", function (e) {
@@ -30,23 +29,18 @@ function attachListeners() {
       let x = document.querySelector("#typeText").value;
       if (x === "") {
         alert("Recipe Search Field Cannot Be Blank");
-      } else initiateRecipeSearch(e)
+      } else initiateRecipeSearch(e);
     });
-
-};
+}
 
 function getFoodInformation() {
-  //preventDefault();
   fetchApi = new FetchApi(foodQueryEndpoint);
   fetchApi
     .getFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        document.querySelector(".card-subtitle").innerText = "No Food Related Questions Asked Enter Search Term";
-        // div = document.createElement("div");
-        // div.className = "data-status";
-        // div.innerText = "No Food Related Questions Asked";
-        // document.querySelector(".card-body").append(div);
+        document.querySelector(".card-subtitle").innerText =
+          "No Food Related Questions Asked Enter Search Term";
       } else {
         printFoodQueryCard(result);
       }
@@ -57,12 +51,18 @@ function getFoodInformation() {
 }
 
 function printFoodQueryCard(obj) {
-  obj.data.forEach((foodQuery) => {
-    let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes);
-
+  if (Array.isArray(obj.data)) {
+    obj.data.forEach((foodQuery) => {
+      let newFoodQuery = new FoodQuery(foodQuery, foodQuery.attributes);
+      document.querySelector("#food-questions").innerHTML +=
+        newFoodQuery.renderFoodQueryCard();
+    });
+  } else {
+    let newFoodQuery = new FoodQuery(obj);
     document.querySelector("#food-questions").innerHTML +=
       newFoodQuery.renderFoodQueryCard();
-  });
+    document.querySelector(".card-subtitle").innerText = "";
+  }
 
   const btnArry = document.getElementsByClassName("delete-button");
   for (var i = 0; i < btnArry.length; i++) {
@@ -88,12 +88,7 @@ function initiateFoodQuery(e) {
       if (!!data.error) {
         alert(data.error);
       } else {
-
-        document.querySelector(".card-subtitle").style.display = "none";
-        let newFoodQuery = new FoodQuery(data, data);
-
-        document.querySelector("#food-questions").innerHTML +=
-          newFoodQuery.renderFoodQueryCard();
+        printFoodQueryCard(data);
       }
     })
     .catch((errors) => {
@@ -115,11 +110,12 @@ function deleteFoodQuery(e) {
     });
 
   if (document.querySelector("#food-questions").childElementCount === 0) {
-    document.querySelector(".card-subtitle").innerText = "No Food Related Questions Asked Enter Search Term";
-  }  
+    document.querySelector(".card-subtitle").innerText =
+      "No Food Related Questions Asked Enter Search Term";
+  }
 }
 
-function getRecipeInformation(){
+function getRecipeInformation() {
   //preventDefault();
   fetchApi = new FetchApi(recipeEndpoint);
   fetchApi
@@ -132,7 +128,7 @@ function getRecipeInformation(){
         // result.data.forEach(recipe => new Recipe(recipe, imagesPath))
         // let recipes = Recipe.all
 
-        printRecipeCards(result.data)
+        printRecipeCards(result.data);
       }
     })
     .catch((errors) => {
@@ -141,7 +137,6 @@ function getRecipeInformation(){
 }
 
 function printRecipeCards(obj) {
-
   // COL-LG-8
   //   ROW
   //     COL-LG-6
@@ -180,7 +175,6 @@ function printRecipeCards(obj) {
   }
 }
 
-
 function deleteRecipe(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
@@ -196,7 +190,6 @@ function deleteRecipe(e) {
 }
 
 function getRecipeListValues() {
-
   //We have to dynamically build a hash based on the field values if field values is 0 for numeric fields or blank do not populate object with key/value pair. If text field is balnk do not populate obj with key/value pair. Required field cannot be blank.
 
   let newObj = {};
@@ -240,32 +233,29 @@ function initiateRecipeSearch(e) {
         return alert("No Recipes Found Please Try Again");
       } else {
         //create category(post) and assign category_id to recipe
-          fetchCategoryApi = new FetchCategoryApi(categoryEndpoint);
-          fetchCategoryApi.postCategoryFetch(recipeCriteria).then((category) => {
-            console.log(`${category}`)
-            result.results.forEach(key => key["category_id"] = category.id)
-            postRecipeData(result);
-          });
+        fetchCategoryApi = new FetchCategoryApi(categoryEndpoint);
+        fetchCategoryApi.postCategoryFetch(recipeCriteria).then((category) => {
+          console.log(`${category}`);
+          result.results.forEach((key) => (key["category_id"] = category.id));
+          postRecipeData(result);
+        });
       }
     })
 
     .catch((errors) => {
       alert(errors);
     });
-    //getRecipeInformation(e)
+  //getRecipeInformation(e)
 }
 
-
-
 function postRecipeData(data) {
- // debugger
+  // debugger
   let headers = {
     "Content-Type": "application/json",
   };
   fetchApi = new FetchApi(recipeEndpoint, headers);
   //debugger
-  fetchApi.postFetch(data)
-  .then(data => {
-   printRecipeCards(data);
-  })
+  fetchApi.postFetch(data).then((data) => {
+    printRecipeCards(data);
+  });
 }
