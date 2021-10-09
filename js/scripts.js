@@ -17,19 +17,21 @@ function attachListeners() {
   document
     .getElementById("button-search")
     .addEventListener("click", function (e) {
-      let x = document.querySelector(".form-control").value;
-      if (x === "") {
+      let x = document.querySelector(".form-control");
+      if (x.value === "") {
         alert("Search Field Cannot Be Blank");
       } else initiateFoodQuery(e);
+      x.value = "";
     });
 
   document
     .querySelector("#button-recipe-search")
     .addEventListener("click", function (e) {
-      let x = document.querySelector("#typeText").value;
-      if (x === "") {
+      let x = document.querySelector("#typeText");
+      if (x.value === "") {
         alert("Recipe Search Field Cannot Be Blank");
       } else initiateRecipeSearch(e);
+      x.value = "";
     });
 }
 
@@ -39,7 +41,7 @@ function getFoodInformation() {
     .getFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        document.querySelector(".card-subtitle").innerText =
+        document.querySelector(".card-subtitle").nextElementSibling.innerText =
           "No Food Related Questions Asked Enter Search Term";
       } else {
         printFoodQueryCard(result);
@@ -61,7 +63,7 @@ function printFoodQueryCard(obj) {
     let newFoodQuery = new FoodQuery(obj);
     document.querySelector("#food-questions").innerHTML +=
       newFoodQuery.renderFoodQueryCard();
-    document.querySelector(".card-subtitle").innerText = "";
+    document.querySelector(".card-subtitle").nextElementSibling.innerText = "";
   }
 
   const btnArry = document.getElementsByClassName("delete-button");
@@ -110,7 +112,7 @@ function deleteFoodQuery(e) {
     });
 
   if (document.querySelector("#food-questions").childElementCount === 0) {
-    document.querySelector(".card-subtitle").innerText =
+    document.querySelector(".card-subtitle").nextElementSibling.innerText =
       "No Food Related Questions Asked Enter Search Term";
   }
 }
