@@ -135,7 +135,6 @@ function getRecipeInformation(){
 }
 
 function printRecipeCards(obj) {
-  //debugger
 
   // COL-LG-8
   //   ROW
@@ -144,11 +143,11 @@ function printRecipeCards(obj) {
   //         CARD MB-4
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that
 
-  //let arry = obj.data || obj.results;
+  let arry = obj.data || obj;
   let container = document.querySelector("#recipe-cards");
   let recipeMarkup = "";
 
-  obj.forEach(function (recipe, i) {
+  arry.forEach(function (recipe, i) {
     if (i === 0) {
       recipeMarkup += `<div class="row">`;
     }
@@ -235,8 +234,8 @@ function initiateRecipeSearch(e) {
         return alert("No Recipes Found Please Try Again");
       } else {
         //create category(post) and assign category_id to recipe
-          fetchApi = new FetchApi(categoryEndpoint);
-          fetchApi.postFetch(recipeCriteria).then((category) => {
+          fetchCategoryApi = new FetchCategoryApi(categoryEndpoint);
+          fetchCategoryApi.postCategoryFetch(recipeCriteria).then((category) => {
             console.log(`${category}`)
             result.results.forEach(key => key["category_id"] = category.id)
             postRecipeData(result);
@@ -253,7 +252,7 @@ function initiateRecipeSearch(e) {
 
 
 function postRecipeData(data) {
-  //debugger
+ // debugger
   let headers = {
     "Content-Type": "application/json",
   };

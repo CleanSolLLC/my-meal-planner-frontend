@@ -18,8 +18,14 @@ class FetchApi {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((response) => response.json());
-  }
+      }).then((response) => response.json())
+    ;
+    }
+   //}).then((response) => {
+     // debugger
+      //return response.json()
+    //});
+  //}
 
   deleteFetch(data) {
     return fetch(this.url, {

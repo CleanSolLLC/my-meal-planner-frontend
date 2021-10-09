@@ -14,10 +14,10 @@ class FetchCategoryApi {
   postCategoryFetch(data) {
     return fetch(this.url, {
       method: "POST",
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
     }).then((response) => response.json());
   }
 
