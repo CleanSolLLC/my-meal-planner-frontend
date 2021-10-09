@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", init);
 
-
 const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 const categoryEndpoint = "http://localhost:3000/api/v1/categories";
@@ -43,10 +42,11 @@ function getFoodInformation() {
     .getFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        div = document.createElement("div");
-        div.className = "data-status";
-        div.innerText = "No Food Related Questions Asked";
-        document.querySelector(".card-body").append(div);
+        document.querySelector(".card-subtitle").innerText = "No Food Related Questions Asked Enter Search Term";
+        // div = document.createElement("div");
+        // div.className = "data-status";
+        // div.innerText = "No Food Related Questions Asked";
+        // document.querySelector(".card-body").append(div);
       } else {
         printFoodQueryCard(result);
       }
@@ -88,6 +88,8 @@ function initiateFoodQuery(e) {
       if (!!data.error) {
         alert(data.error);
       } else {
+
+        document.querySelector(".card-subtitle").style.display = "none";
         let newFoodQuery = new FoodQuery(data, data);
 
         document.querySelector("#food-questions").innerHTML +=
@@ -111,6 +113,10 @@ function deleteFoodQuery(e) {
     .catch((errors) => {
       alert(errors);
     });
+
+  if (document.querySelector("#food-questions").childElementCount === 0) {
+    document.querySelector(".card-subtitle").innerText = "No Food Related Questions Asked Enter Search Term";
+  }  
 }
 
 function getRecipeInformation(){
