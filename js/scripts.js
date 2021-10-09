@@ -31,7 +31,8 @@ function attachListeners() {
       if (x.value === "") {
         alert("Recipe Search Field Cannot Be Blank");
       } else initiateRecipeSearch(e);
-      x.value = "";
+      //resetRecipeFieldValues();
+      //x.value = "";
     });
 }
 
@@ -98,6 +99,7 @@ function initiateFoodQuery(e) {
     });
 }
 
+
 function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
@@ -124,11 +126,9 @@ function getRecipeInformation() {
     .getFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        return (document.querySelector("#recipe-cards").innerText =
-          "No Recipes Selected");
+        document.querySelector(".recipe-container").nextElementSibling.innerText =
+          "No Recipes Selected";
       } else {
-        // result.data.forEach(recipe => new Recipe(recipe, imagesPath))
-        // let recipes = Recipe.all
 
         printRecipeCards(result.data);
       }
@@ -156,6 +156,8 @@ function printRecipeCards(obj) {
     }
     let rec = new Recipe(recipe, imagesPath);
     recipeMarkup += rec.renderRecipeCard();
+
+    document.querySelector(".recipe-container").nextElementSibling.innerText = "";
 
     if (i !== 0 && i % 2 !== 0) {
       // add end of row ,and start new row on every 2 elements
@@ -189,6 +191,11 @@ function deleteRecipe(e) {
     .catch((errors) => {
       alert(errors);
     });
+
+  if (document.querySelector("#recipe-cards").firstElementChild.innerText === "") {
+    document.querySelector(".recipe-container").nextElementSibling.innerText = "No Recipes Selected";
+    document.querySelector("#recipe-cards").remove();
+  }
 }
 
 function getRecipeListValues() {
@@ -212,6 +219,11 @@ function getRecipeListValues() {
   }
 
   return newObj;
+}
+
+
+function resetRecipeFieldValues() {
+  
 }
 
 function initiateRecipeSearch(e) {
