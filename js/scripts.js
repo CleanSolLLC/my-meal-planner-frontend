@@ -31,8 +31,6 @@ function attachListeners() {
       if (x.value === "") {
         alert("Recipe Search Field Cannot Be Blank");
       } else initiateRecipeSearch(e);
-      //resetRecipeFieldValues();
-      //x.value = "";
     });
 }
 
@@ -80,7 +78,6 @@ function printFoodQueryCard(obj) {
 
 function initiateFoodQuery(e) {
   e.preventDefault();
-  //document.querySelector(".medium").innerText = "";
   const search = document.querySelector(".form-control").value;
   const data = { search: search };
 
@@ -158,10 +155,6 @@ function printRecipeCards(obj) {
     let rec = new Recipe(recipe, imagesPath);
     recipeMarkup += rec.renderRecipeCard();
 
-    //var a = document.querySelector("#recipe-cards").lastElementChild
-    //a.document.querySelector(".card-body").getElementsByTagName("div")[4]
-    //debugger
-
     document.querySelector(".recipe-container").nextElementSibling.innerText =
       "";
 
@@ -211,7 +204,6 @@ function deleteRecipe(e) {
   ) {
     document.querySelector(".recipe-container").nextElementSibling.innerText =
       "No Recipes Selected";
-    //document.querySelector("#recipe-cards").remove();
   }
 }
 
@@ -239,7 +231,6 @@ function getRecipeListValues() {
 }
 
 function initiateRecipeSearch(e) {
-  //debugger
   let recipeCriteria = getRecipeListValues();
   let url = "https://webknox-recipes.p.rapidapi.com/recipes/search";
   url += "?" + new URLSearchParams(recipeCriteria).toString();
@@ -271,16 +262,13 @@ function initiateRecipeSearch(e) {
     .catch((errors) => {
       alert(errors);
     });
-  //getRecipeInformation(e)
 }
 
 function postRecipeData(data) {
-  // debugger
   let headers = {
     "Content-Type": "application/json",
   };
   fetchApi = new FetchApi(recipeEndpoint, headers);
-  //debugger
   fetchApi.postFetch(data).then((data) => {
     printRecipeCards(data);
   });
