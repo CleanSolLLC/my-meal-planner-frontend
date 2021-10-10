@@ -29,12 +29,18 @@ class Recipe {
                 <br>
                 <div><a href="${this.sourceUrl}"target="_blank">${this.sourceUrl}</a></div>
                 <br>
-                <div><b>Category:</b> ${this.recipeCategoryName},
-                <b>Type:</b> ${this.recipeCategoryType},
-                <b>Cuisine:</b> ${this.recipeCategoryCuisine},
-                <b>Diet:</b> ${this.recipeCategoryDiet},
-                <b>Food Intolerance:</b> ${this.recipeCategoryIntolerance},
-                <b>Exclude:</b> ${this.recipeCategoryExclude}</div>
+                <div><strong>Category:</strong>
+                  ${this.recipeCategoryName}</div>
+                <div><strong>Type:</strong>
+                  ${this.recipeCategoryType}</div>
+                <div><strong>Cuisine:</strong>
+                  ${this.recipeCategoryCuisine}</div>
+                <div><strong>Diet:</strong>
+                  ${this.recipeCategoryDiet}</div>
+                <div><strong>Food Intolerance:</strong>
+                  ${this.recipeCategoryIntolerance}</div>
+                <div><strong>Exclude:</strong>
+                  ${this.recipeCategoryExclude}</div>
                 <br>
                 <button class="delete-recipe-button" type="button" value="Delete" data-id=${this.id}>Delete</button>
             </div>

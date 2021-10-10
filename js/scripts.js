@@ -99,6 +99,7 @@ function initiateFoodQuery(e) {
     });
 }
 
+function resetRecipeFieldValues() {}
 
 function deleteFoodQuery(e) {
   e.preventDefault();
@@ -126,10 +127,10 @@ function getRecipeInformation() {
     .getFetch()
     .then((result) => {
       if (result.data.length === 0) {
-        document.querySelector(".recipe-container").nextElementSibling.innerText =
-          "No Recipes Selected";
+        document.querySelector(
+          ".recipe-container"
+        ).nextElementSibling.innerText = "No Recipes Selected";
       } else {
-
         printRecipeCards(result.data);
       }
     })
@@ -157,7 +158,12 @@ function printRecipeCards(obj) {
     let rec = new Recipe(recipe, imagesPath);
     recipeMarkup += rec.renderRecipeCard();
 
-    document.querySelector(".recipe-container").nextElementSibling.innerText = "";
+    //var a = document.querySelector("#recipe-cards").lastElementChild
+    //a.document.querySelector(".card-body").getElementsByTagName("div")[4]
+    //debugger
+
+    document.querySelector(".recipe-container").nextElementSibling.innerText =
+      "";
 
     if (i !== 0 && i % 2 !== 0) {
       // add end of row ,and start new row on every 2 elements
@@ -167,6 +173,14 @@ function printRecipeCards(obj) {
 
   recipeMarkup += `</div>`;
   container.innerHTML += recipeMarkup;
+
+  //logic to suppress null values passed in if user does not enter an optional search criteria for recipe
+  var a = container.querySelectorAll(".row > div > div > div > div");
+  a.forEach(function (element) {
+    if (element.textContent.endsWith(null)) {
+      element.style.display = "none";
+    }
+  });
 
   const btnArry = document.getElementsByClassName("delete-recipe-button");
   for (var i = 0; i < btnArry.length; i++) {
@@ -192,9 +206,12 @@ function deleteRecipe(e) {
       alert(errors);
     });
 
-  if (document.querySelector("#recipe-cards").firstElementChild.innerText === "") {
-    document.querySelector(".recipe-container").nextElementSibling.innerText = "No Recipes Selected";
-    document.querySelector("#recipe-cards").remove();
+  if (
+    document.querySelector("#recipe-cards").firstElementChild.innerText === ""
+  ) {
+    document.querySelector(".recipe-container").nextElementSibling.innerText =
+      "No Recipes Selected";
+    //document.querySelector("#recipe-cards").remove();
   }
 }
 
@@ -219,11 +236,6 @@ function getRecipeListValues() {
   }
 
   return newObj;
-}
-
-
-function resetRecipeFieldValues() {
-  
 }
 
 function initiateRecipeSearch(e) {
