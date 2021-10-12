@@ -31,7 +31,15 @@ function attachListeners() {
       if (x.value === "") {
         alert("Recipe Search Field Cannot Be Blank");
       } else initiateRecipeSearch(e);
+      clearRecipeListValues();
     });
+  
+  // document
+  //   .querySelector("#dropdownMenuButton")
+  //   .addEventListener("click", function (e) {
+  //     buildCategoryList();
+  //   });
+
 }
 
 function getFoodInformation() {
@@ -96,8 +104,6 @@ function initiateFoodQuery(e) {
     });
 }
 
-function resetRecipeFieldValues() {}
-
 function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
@@ -129,6 +135,7 @@ function getRecipeInformation() {
         ).nextElementSibling.innerText = "No Recipes Selected";
       } else {
         printRecipeCards(result.data);
+        buildCategoryList()
       }
     })
     .catch((errors) => {
@@ -152,6 +159,7 @@ function printRecipeCards(obj) {
     if (i === 0) {
       recipeMarkup += `<div class="row">`;
     }
+    //debugger
     let rec = new Recipe(recipe, imagesPath);
     recipeMarkup += rec.renderRecipeCard();
 
@@ -184,6 +192,24 @@ function printRecipeCards(obj) {
       }
     });
   }
+
+// sort routine
+// Recipe.all.sort(function(a, b) {
+//   var nameA = a.recipeCategoryName.toUpperCase(); // ignore upper and lowercase
+//   var nameB = b.recipeCategoryName.toUpperCase(); // ignore upper and lowercase
+//   if (nameA < nameB) {
+//     return -1;
+//   }
+//   if (nameA > nameB) {
+//     return 1;
+//   }
+
+//   // names must be equal
+//   return 0;
+// });
+
+
+
 }
 
 function deleteRecipe(e) {
@@ -211,8 +237,9 @@ function getRecipeListValues() {
   //We have to dynamically build a hash based on the field values if field values is 0 for numeric fields or blank do not populate object with key/value pair. If text field is balnk do not populate obj with key/value pair. Required field cannot be blank.
 
   let newObj = {};
+  let q = document.querySelector("#typeText").value;
   const obj = {
-    query: document.querySelector("#typeText").value,
+    query: q.charAt(0).toUpperCase() + q.slice(1),
     number: document.querySelector("#typeNumber").value,
     recipe_type: document.querySelector("#foodTypeList").value,
     cuisine: document.querySelector("#cuisineList").value,
@@ -230,6 +257,58 @@ function getRecipeListValues() {
   return newObj;
 }
 
+function clearRecipeListValues() {
+
+    query: document.querySelector("#typeText").value = ""
+    number: document.querySelector("#typeNumber").value = ""
+    recipe_type: document.querySelector("#foodTypeList").value = ""
+    cuisine: document.querySelector("#cuisineList").value = ""
+    diet: document.querySelector("#dietList").value = ""
+    intolerances: document.querySelector("#intoleranceList").value = ""
+    exclude: document.querySelector("#typeTextExclusions").value = ""
+}
+
+function buildCategoryList() {
+  //if Category.all is empty then we are loading recipes in from the database and must use the serializer to capture the category data. If Category.all is not empty then we will iterate over array to poulate the dropdown list
+
+  const listItems = function() {
+    let categories = [];
+    let catArry;
+    let categoryDesc = new Set();
+    Category.all.length === 0 ? cat = Recipe.all : cat = Category.all
+      //grab category descriptions from the recipes that are loaded from the db 
+      //catArry = Recipe.all;
+
+        for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of cat) {
+           categories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude)
+         }
+      //debugger
+      catArry = categories;
+
+    // }else {
+    //   catArry = Category.all
+    // };
+
+    for(i=0; i < catArry.length; i++) {
+      //for(prop in catArry[i]) {
+        categoryDesc.add(catArry[i])
+      //}
+    }
+    return [...categoryDesc];
+  }
+  debugger;
+  let buttonList = document.querySelector(".dropdown-menu");
+   const recipeCatgory = listItems().filter(cat => cat !== null)
+    recipeCatgory.forEach((list) => {
+    let bttn = document.createElement("button");
+    bttn.className="dropdown-item";
+    bttn.setAttribute("type", "button")
+    bttn.innerText = list.charAt(0).toUpperCase() + list.slice(1);
+    buttonList.append(bttn);
+  })
+
+}
+
 function initiateRecipeSearch(e) {
   let recipeCriteria = getRecipeListValues();
   let url = "https://webknox-recipes.p.rapidapi.com/recipes/search";
@@ -242,7 +321,6 @@ function initiateRecipeSearch(e) {
   };
 
   fetchApi = new FetchApi(url, headers);
-
   fetchApi
     .getFetch()
     .then((result) => {
@@ -250,11 +328,13 @@ function initiateRecipeSearch(e) {
         return alert("No Recipes Found Please Try Again");
       } else {
         //create category(post) and assign category_id to recipe
+        //also create new instance of category
+        newCategory = new Category(recipeCriteria);
         fetchCategoryApi = new FetchCategoryApi(categoryEndpoint);
         fetchCategoryApi.postCategoryFetch(recipeCriteria).then((category) => {
-          console.log(`${category}`);
           result.results.forEach((key) => (key["category_id"] = category.id));
           postRecipeData(result);
+          buildCategoryList();
         });
       }
     })
@@ -273,3 +353,5 @@ function postRecipeData(data) {
     printRecipeCards(data);
   });
 }
+
+

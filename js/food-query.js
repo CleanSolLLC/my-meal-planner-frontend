@@ -3,7 +3,15 @@ class FoodQuery {
     this.id = foodQuery.id;
     this.search = foodQueryAtrributes.search || foodQuery.search;
     this.response = foodQueryAtrributes.response || foodQuery.response;
+    this.save
+  }
+
+  save() {
     FoodQuery.all.push(this);
+  }
+
+  static all() {
+    return foodQuery.all;
   }
 
   renderFoodQueryCard() {
@@ -19,3 +27,5 @@ class FoodQuery {
 }
 
 FoodQuery.all = [];
+
+

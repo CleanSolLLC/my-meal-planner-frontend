@@ -14,9 +14,18 @@ class Recipe {
     this.recipeCategoryDiet = recipe.attributes.category.diet;
     this.recipeCategoryIntolerance = recipe.attributes.category.intolerances;
     this.recipeCategoryExclude = recipe.attributes.category.exclude;
-
-    Recipe.all.push(this);
+    this.save();
   }
+
+    save() {
+      Recipe.all.push(this);
+    }
+
+    static all() {
+      return Recipe.all;
+    }
+
+
 
   renderRecipeCard() {
     let recipeMarkup = `<div class="col-lg-6">
