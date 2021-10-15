@@ -4,6 +4,9 @@ const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
 const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 const categoryEndpoint = "http://localhost:3000/api/v1/categories";
 const imagesPath = "https://spoonacular.com/recipeImages/";
+const categoryDesc = new Set();
+let initialListLoad = false
+
 
 const btnArry = document.getElementsByClassName("delete-button");
 
@@ -34,12 +37,12 @@ function attachListeners() {
       clearRecipeListValues();
     });
   
-  // document
-  //   .querySelector("#dropdownMenuButton")
-  //   .addEventListener("click", function (e) {
-  //     buildCategoryList();
-  //   });
-
+   document
+     .querySelector("#dropdownMenuButton")
+     .addEventListener("click", function (e) {
+      buildCategoryList(e);
+      initialListLoad = true;
+    });
 }
 
 function getFoodInformation() {
@@ -135,7 +138,6 @@ function getRecipeInformation() {
         ).nextElementSibling.innerText = "No Recipes Selected";
       } else {
         printRecipeCards(result.data);
-        buildCategoryList()
       }
     })
     .catch((errors) => {
@@ -159,7 +161,6 @@ function printRecipeCards(obj) {
     if (i === 0) {
       recipeMarkup += `<div class="row">`;
     }
-    //debugger
     let rec = new Recipe(recipe, imagesPath);
     recipeMarkup += rec.renderRecipeCard();
 
@@ -191,6 +192,7 @@ function printRecipeCards(obj) {
         deleteRecipe(e);
       }
     });
+  //recipes = Recipe.all
   }
 
 // sort routine
@@ -208,7 +210,8 @@ function printRecipeCards(obj) {
 //   return 0;
 // });
 
-
+  //buildCategoryList();
+  //initialListLoad = true;
 
 }
 
@@ -268,45 +271,35 @@ function clearRecipeListValues() {
     exclude: document.querySelector("#typeTextExclusions").value = ""
 }
 
-function buildCategoryList() {
-  //if Category.all is empty then we are loading recipes in from the database and must use the serializer to capture the category data. If Category.all is not empty then we will iterate over array to poulate the dropdown list
+function buildCategoryList(e) {
+  e.preventDefault();
+  //debugger
+  let categoryList = [];
+  let recipeCategories = [];
 
-  const listItems = function() {
-    let categories = [];
-    let catArry;
-    let categoryDesc = new Set();
-    Category.all.length === 0 ? cat = Recipe.all : cat = Category.all
-      //grab category descriptions from the recipes that are loaded from the db 
-      //catArry = Recipe.all;
 
-        for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of cat) {
-           categories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude)
-         }
-      //debugger
-      catArry = categories;
-
-    // }else {
-    //   catArry = Category.all
-    // };
-
-    for(i=0; i < catArry.length; i++) {
-      //for(prop in catArry[i]) {
-        categoryDesc.add(catArry[i])
-      //}
-    }
-    return [...categoryDesc];
+  if (initialListLoad === false) {
+    for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all) {
+        recipeCategories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude);
+       }
+        categoryList = [...new Set(recipeCategories)]
+  } else {
+     let difference = categoryList.filter(x => Recipe.all.slice(-1).indexOf(x) === -1);        
+        categoryList.push(difference)
   }
-  debugger;
+
+
+
   let buttonList = document.querySelector(".dropdown-menu");
-   const recipeCatgory = listItems().filter(cat => cat !== null)
-    recipeCatgory.forEach((list) => {
+  let catArry = categoryList.filter(x => x)
+    catArry.forEach(list => {
     let bttn = document.createElement("button");
     bttn.className="dropdown-item";
     bttn.setAttribute("type", "button")
     bttn.innerText = list.charAt(0).toUpperCase() + list.slice(1);
     buttonList.append(bttn);
   })
-
+//return;
 }
 
 function initiateRecipeSearch(e) {
@@ -334,7 +327,7 @@ function initiateRecipeSearch(e) {
         fetchCategoryApi.postCategoryFetch(recipeCriteria).then((category) => {
           result.results.forEach((key) => (key["category_id"] = category.id));
           postRecipeData(result);
-          buildCategoryList();
+          //buildCategoryList();
         });
       }
     })
@@ -354,4 +347,18 @@ function postRecipeData(data) {
   });
 }
 
+function filterRecipeResults(e) {
+  let recipeArray = [];
+  let category = e.currentTarget.innerText
 
+
+Recipe.all.forEach(recipe => {
+      for(prop in recipe) {
+        if (recipe[prop] === category) {
+          recipeArray.push(recipe)
+        }
+
+      }
+    });
+return recipeArray;
+}
