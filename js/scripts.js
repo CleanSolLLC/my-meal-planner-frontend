@@ -5,7 +5,8 @@ const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
 const categoryEndpoint = "http://localhost:3000/api/v1/categories";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 const categoryDesc = new Set();
-let initialListLoad = false
+let initialListLoad = false;
+let dropdownList = [];
 
 
 const btnArry = document.getElementsByClassName("delete-button");
@@ -42,6 +43,13 @@ function attachListeners() {
      .addEventListener("click", function (e) {
       buildCategoryList(e);
       initialListLoad = true;
+      //return undefined;
+    });
+
+    document
+     .querySelector(".dropdown")
+     .addEventListener("click", function (e) {
+      filterRecipeResults(e);
     });
 }
 
@@ -273,33 +281,50 @@ function clearRecipeListValues() {
 
 function buildCategoryList(e) {
   e.preventDefault();
-  //debugger
   let categoryList = [];
   let recipeCategories = [];
 
 
-  if (initialListLoad === false) {
-    for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all) {
+function loadCategories() {
+  for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all) {
         recipeCategories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude);
-       }
-        categoryList = [...new Set(recipeCategories)]
-  } else {
-     let difference = categoryList.filter(x => Recipe.all.slice(-1).indexOf(x) === -1);        
-        categoryList.push(difference)
+  }
+      categoryList = [...new Set(recipeCategories)]
+      return categoryList;
+} 
+
+function loadLastCategory() {
+  for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all.slice(-1)) {
+        recipeCategories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude);
+  }
+      categoryList = [...new Set(recipeCategories)]
+      return categoryList;
+} 
+
+
+  if (initialListLoad === false) {
+     categoryList = loadCategories();
+     dropdownList = categoryList;
+  }else {
+      //debugger
+      if (categoryList.length === 0 && JSON.stringify(loadLastCategory()) === JSON.stringify(dropdownList)) {
+         return
+      } else {
+          categoryList = loadLastCategory();
+      }
   }
 
-
-
+  //debugger;
   let buttonList = document.querySelector(".dropdown-menu");
   let catArry = categoryList.filter(x => x)
-    catArry.forEach(list => {
+    catArry.forEach((list) => {
     let bttn = document.createElement("button");
     bttn.className="dropdown-item";
     bttn.setAttribute("type", "button")
     bttn.innerText = list.charAt(0).toUpperCase() + list.slice(1);
     buttonList.append(bttn);
   })
-//return;
+    dropdownList = categoryList;
 }
 
 function initiateRecipeSearch(e) {
@@ -348,17 +373,13 @@ function postRecipeData(data) {
 }
 
 function filterRecipeResults(e) {
-  let recipeArray = [];
-  let category = e.currentTarget.innerText
 
-
-Recipe.all.forEach(recipe => {
-      for(prop in recipe) {
-        if (recipe[prop] === category) {
-          recipeArray.push(recipe)
-        }
-
-      }
-    });
-return recipeArray;
 }
+
+
+    //  function difference() {
+    //    let difference = categoryList.filter(x => Recipe.all.slice(-1).indexOf(x) === -1);       
+    //     categoryList.push(difference);
+    //     //debugger
+    //     return difference.length === 0 ? difference.length : categoryList;
+    // };
