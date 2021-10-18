@@ -200,26 +200,7 @@ function printRecipeCards(obj) {
         deleteRecipe(e);
       }
     });
-  //recipes = Recipe.all
   }
-
-// sort routine
-// Recipe.all.sort(function(a, b) {
-//   var nameA = a.recipeCategoryName.toUpperCase(); // ignore upper and lowercase
-//   var nameB = b.recipeCategoryName.toUpperCase(); // ignore upper and lowercase
-//   if (nameA < nameB) {
-//     return -1;
-//   }
-//   if (nameA > nameB) {
-//     return 1;
-//   }
-
-//   // names must be equal
-//   return 0;
-// });
-
-  //buildCategoryList();
-  //initialListLoad = true;
 
 }
 
@@ -280,22 +261,23 @@ function clearRecipeListValues() {
 }
 
 function buildCategoryList(e) {
+  debugger
   e.preventDefault();
   let categoryList = [];
   let recipeCategories = [];
 
 
 function loadCategories() {
-  for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all) {
-        recipeCategories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude);
+  for (const {recipeCategoryName} of Recipe.all) {
+        recipeCategories.push(recipeCategoryName);
   }
       categoryList = [...new Set(recipeCategories)]
       return categoryList;
 } 
 
 function loadLastCategory() {
-  for (const {recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude} of Recipe.all.slice(-1)) {
-        recipeCategories.push(recipeCategoryName, recipeCategoryType, recipeCategoryCuisine, recipeCategoryDiet, recipeCategoryIntolerance, recipeCategoryExclude);
+  for (const {recipeCategoryName} of Recipe.all.slice(-1)) {
+        recipeCategories.push(recipeCategoryName);
   }
       categoryList = [...new Set(recipeCategories)]
       return categoryList;
