@@ -49,6 +49,7 @@ function attachListeners() {
      .querySelector(".dropdown-menu")
      .addEventListener("click", function (e) {
       filterRecipeResults(e);
+      e.stopPropagation();
     });     
 }
 
@@ -261,7 +262,6 @@ function clearRecipeListValues() {
 }
 
 function buildCategoryList(e) {
-  debugger
   e.preventDefault();
   let categoryList = [];
   let recipeCategories = [];
@@ -288,15 +288,12 @@ function loadLastCategory() {
      categoryList = loadCategories();
      dropdownList = categoryList;
   }else {
-      //debugger
       if (categoryList.length === 0 && JSON.stringify(loadLastCategory()) === JSON.stringify(dropdownList)) {
          return
       } else {
           categoryList = loadLastCategory();
       }
   }
-
-  //debugger;
   let buttonList = document.querySelector(".dropdown-menu");
   let catArry = categoryList.filter(x => x)
     catArry.forEach((list) => {
@@ -355,7 +352,6 @@ function postRecipeData(data) {
 }
 
 function filterRecipeResults(e) {
-  //debugger
   var input, filter, cards, cardContainer, i;
   input = e.srcElement.innerText.toUpperCase();
 
