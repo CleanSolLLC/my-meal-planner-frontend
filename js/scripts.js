@@ -38,19 +38,18 @@ function attachListeners() {
       clearRecipeListValues();
     });
   
-   document
-     .querySelector("#dropdownMenuButton")
-     .addEventListener("click", function (e) {
-      buildCategoryList(e);
-      initialListLoad = true;
-      //return undefined;
-    });
-
     document
      .querySelector(".dropdown")
      .addEventListener("click", function (e) {
-      filterRecipeResults(e);
+      buildCategoryList(e);
+      initialListLoad = true;
     });
+
+   document
+     .querySelector(".dropdown-menu")
+     .addEventListener("click", function (e) {
+      filterRecipeResults(e);
+    });     
 }
 
 function getFoodInformation() {
@@ -154,6 +153,7 @@ function getRecipeInformation() {
 }
 
 function printRecipeCards(obj) {
+
   // COL-LG-8
   //   ROW
   //     COL-LG-6
@@ -175,7 +175,7 @@ function printRecipeCards(obj) {
     document.querySelector(".recipe-container").nextElementSibling.innerText =
       "";
 
-    if (i !== 0 && i % 2 !== 0) {
+    if (i % 2 !== 0) {
       // add end of row ,and start new row on every 2 elements
       recipeMarkup += `</div><div class="row">`;
     }
@@ -373,13 +373,22 @@ function postRecipeData(data) {
 }
 
 function filterRecipeResults(e) {
+  //debugger
+  var input, filter, cards, cardContainer, i;
+  input = e.srcElement.innerText.toUpperCase();
 
+  cards = document.querySelectorAll("#recipe-cards .card-body .category-name");
+
+
+
+  cards.forEach(card => {
+    if (card.innerText.toUpperCase().includes(input)) {
+            card.parentNode.style.display = ""
+      } else if (input === "ALL") {
+        card.style.display === "none" ? card.parentNode.style.display === "none" : card.parentNode.style.display = ""
+      } else {
+            card.parentNode.style.display = "none"
+      }
+
+  })
 }
-
-
-    //  function difference() {
-    //    let difference = categoryList.filter(x => Recipe.all.slice(-1).indexOf(x) === -1);       
-    //     categoryList.push(difference);
-    //     //debugger
-    //     return difference.length === 0 ? difference.length : categoryList;
-    // };

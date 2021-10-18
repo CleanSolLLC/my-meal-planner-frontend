@@ -38,7 +38,7 @@ class Recipe {
                 <br>
                 <div><a href="${this.sourceUrl}"target="_blank">${this.sourceUrl}</a></div>
                 <br>
-                <div><strong>Category:</strong>
+                <div class = "category-name"><strong>Category:</strong>
                   ${this.recipeCategoryName}</div>
                 <div><strong>Type:</strong>
                   ${this.recipeCategoryType}</div>
