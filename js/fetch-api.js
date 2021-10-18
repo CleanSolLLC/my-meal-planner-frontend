@@ -1,13 +1,13 @@
 class FetchApi {
   constructor(url, options = {}) {
     this.url = url;
-    this.header = options;
+    this._header = options;
   }
 
   getFetch() {
     return fetch(this.url, {
       method: "GET",
-      headers: this.header,
+      headers: this._header,
     }).then((response) => response.json());
   }
 
