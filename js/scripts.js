@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", init);
 
-const foodQueryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/food_queries";
-//const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
-const recipeEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/recipes";
-//const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
-const categoryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/categories";
-//const categoryEndpoint = "http://localhost:3000/api/v1/categories";
+//const foodQueryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/food_queries";
+const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
+//const recipeEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/recipes";
+const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
+//const categoryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/categories";
+const categoryEndpoint = "http://localhost:3000/api/v1/categories";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 const categoryDesc = new Set();
 let initialListLoad = false;
