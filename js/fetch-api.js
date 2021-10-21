@@ -1,13 +1,13 @@
 class FetchApi {
   constructor(url, options = {}) {
     this.url = url;
-    this._header = options;
+    this.header = options;
   }
 
   getFetch() {
     return fetch(this.url, {
       method: "GET",
-      headers: this._header,
+      headers: this.header,
     }).then((response) => response.json());
   }
 
@@ -20,11 +20,6 @@ class FetchApi {
       body: JSON.stringify(data),
     }).then((response) => response.json());
   }
-  //}).then((response) => {
-  // debugger
-  //return response.json()
-  //});
-  //}
 
   deleteFetch(data) {
     return fetch(this.url, {

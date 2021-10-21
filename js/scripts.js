@@ -57,11 +57,12 @@ function attachListeners() {
 }
 
 function getFoodInformation() {
-  debugger
+  //debugger
   fetchApi = new FetchApi(foodQueryEndpoint);
   fetchApi
     .getFetch()
     .then((result) => {
+      //debugger
       if (result.data.length === 0) {
         document.querySelector(".card-subtitle").nextElementSibling.innerText =
           "No Food Related Questions Asked Enter Search Term";
@@ -100,11 +101,43 @@ function printFoodQueryCard(obj) {
 }
 
 function initiateFoodQuery(e) {
+  //debugger
   e.preventDefault();
-  const search = document.querySelector(".form-control").value;
-  const data = { search: search };
+  let search = document.querySelector(".form-control").value;
+  let url = "https://webknox-recipes.p.rapidapi.com/recipes/quickAnswer";
+  url += "?q=" + new URLSearchParams(search).toString();
 
-  fetchApi = new FetchApi(foodQueryEndpoint);
+  let headers = {
+    "Content-Type": "application/json",
+    "x-rapidapi-host": config["FOOD-QUERY-HOST"],
+    "x-rapidapi-key":  config["FOOD-QUERY-KEY"],
+  };
+
+  fetchApi = new FetchApi(url, headers);
+  fetchApi
+    .getFetch()
+    .then((result) => {
+      //debugger
+      if (result === {}) {
+        return alert("Answer Not Found Please Try Again");
+      } else {
+        result["search"] = search
+        result["response"] = result.answer
+          postFoodQueryData(result);
+      }
+    })
+      
+    .catch((errors) => {
+      alert(errors);
+    });
+}
+
+function postFoodQueryData(data) {
+  let headers = {
+    "Content-Type": "application/json",
+  };
+
+  fetchApi = new FetchApi(foodQueryEndpoint, headers);
   fetchApi
     .postFetch(data)
     .then((data) => {
@@ -118,6 +151,11 @@ function initiateFoodQuery(e) {
       alert(errors);
     });
 }
+
+//   const search = document.querySelector(".form-control").value;
+//   const data = { search: search };
+
+
 
 function deleteFoodQuery(e) {
   e.preventDefault();
