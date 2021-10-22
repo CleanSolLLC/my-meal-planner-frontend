@@ -118,7 +118,7 @@ function initiateFoodQuery(e) {
     .getFetch()
     .then((result) => {
       //debugger
-      if (result === {}) {
+      if (result.answer === undefined) {
         return alert("Answer Not Found Please Try Again");
       } else {
         result["search"] = search
