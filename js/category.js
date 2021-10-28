@@ -6,7 +6,7 @@ class Category {
     this.recipeCategoryDiet = category.diet;
     this.recipeCategoryIntolerance = category.intolerances;
     this.recipeCategoryExclude = category.exclude;
-    this.save()
+    this.save();
   }
 
   save() {
@@ -19,5 +19,3 @@ class Category {
 }
 
 Category.all = [];
-
-

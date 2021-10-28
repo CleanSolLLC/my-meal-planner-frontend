@@ -17,15 +17,13 @@ class Recipe {
     this.save();
   }
 
-    save() {
-      Recipe.all.push(this);
-    }
+  save() {
+    Recipe.all.push(this);
+  }
 
-    static all() {
-      return Recipe.all;
-    }
-
-
+  static all() {
+    return Recipe.all;
+  }
 
   renderRecipeCard() {
     let recipeMarkup = `<div class="col-lg-6">

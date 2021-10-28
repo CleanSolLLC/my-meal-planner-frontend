@@ -1,16 +1,18 @@
 document.addEventListener("DOMContentLoaded", init);
 
-const foodQueryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/food_queries";
+const foodQueryEndpoint =
+  "https://my-meal-planner-api.herokuapp.com/api/v1/food_queries";
 //const foodQueryEndpoint = "http://localhost:3000/api/v1/food_queries";
-const recipeEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/recipes";
+const recipeEndpoint =
+  "https://my-meal-planner-api.herokuapp.com/api/v1/recipes";
 //const recipeEndpoint = "http://localhost:3000/api/v1/recipes";
-const categoryEndpoint = "https://my-meal-planner-api.herokuapp.com/api/v1/categories";
+const categoryEndpoint =
+  "https://my-meal-planner-api.herokuapp.com/api/v1/categories";
 //const categoryEndpoint = "http://localhost:3000/api/v1/categories";
 const imagesPath = "https://spoonacular.com/recipeImages/";
 const categoryDesc = new Set();
 let initialListLoad = false;
 let dropdownList = [];
-
 
 const btnArry = document.getElementsByClassName("delete-button");
 
@@ -40,29 +42,25 @@ function attachListeners() {
       } else initiateRecipeSearch(e);
       clearRecipeListValues();
     });
-  
-    document
-     .querySelector(".dropdown")
-     .addEventListener("click", function (e) {
-      buildCategoryList(e);
-      initialListLoad = true;
-    });
 
-   document
-     .querySelector(".dropdown-menu")
-     .addEventListener("click", function (e) {
+  document.querySelector(".dropdown").addEventListener("click", function (e) {
+    buildCategoryList(e);
+    initialListLoad = true;
+  });
+
+  document
+    .querySelector(".dropdown-menu")
+    .addEventListener("click", function (e) {
       filterRecipeResults(e);
       e.stopPropagation();
-    });     
+    });
 }
 
 function getFoodInformation() {
-  //debugger
   fetchApi = new FetchApi(foodQueryEndpoint);
   fetchApi
     .getFetch()
     .then((result) => {
-      //debugger
       if (result.data.length === 0) {
         document.querySelector(".card-subtitle").nextElementSibling.innerText =
           "No Food Related Questions Asked Enter Search Term";
@@ -101,7 +99,6 @@ function printFoodQueryCard(obj) {
 }
 
 function initiateFoodQuery(e) {
-  //debugger
   e.preventDefault();
   let search = document.querySelector(".form-control").value;
   let url = "https://webknox-recipes.p.rapidapi.com/recipes/quickAnswer";
@@ -110,23 +107,22 @@ function initiateFoodQuery(e) {
   let headers = {
     "Content-Type": "application/json",
     "x-rapidapi-host": config["FOOD-QUERY-HOST"],
-    "x-rapidapi-key":  config["FOOD-QUERY-KEY"],
+    "x-rapidapi-key": config["FOOD-QUERY-KEY"],
   };
 
   fetchApi = new FetchApi(url, headers);
   fetchApi
     .getFetch()
     .then((result) => {
-      //debugger
       if (result.answer === undefined) {
         return alert("Answer Not Found Please Try Again");
       } else {
-        result["search"] = search
-        result["response"] = result.answer
-          postFoodQueryData(result);
+        result["search"] = search;
+        result["response"] = result.answer;
+        postFoodQueryData(result);
       }
     })
-      
+
     .catch((errors) => {
       alert(errors);
     });
@@ -152,11 +148,6 @@ function postFoodQueryData(data) {
     });
 }
 
-//   const search = document.querySelector(".form-control").value;
-//   const data = { search: search };
-
-
-
 function deleteFoodQuery(e) {
   e.preventDefault();
   let data = e.target.attributes[3].value;
@@ -177,7 +168,6 @@ function deleteFoodQuery(e) {
 }
 
 function getRecipeInformation() {
-  //preventDefault();
   fetchApi = new FetchApi(recipeEndpoint);
   fetchApi
     .getFetch()
@@ -196,6 +186,7 @@ function getRecipeInformation() {
 }
 
 function printRecipeCards(obj) {
+  debugger;
 
   // COL-LG-8
   //   ROW
@@ -204,6 +195,7 @@ function printRecipeCards(obj) {
   //         CARD MB-4
   //create a card; 2 columns of cards will append to <div class="col-lg-6"></div> il maxColCnt is < 2 or create a new div and class for col-lg-6 and append to that
 
+  //if obj is passed from the creation of the recipe it is obj.
   let arry = obj.data || obj;
   let container = document.querySelector("#recipe-cards");
   let recipeMarkup = "";
@@ -244,7 +236,6 @@ function printRecipeCards(obj) {
       }
     });
   }
-
 }
 
 function deleteRecipe(e) {
@@ -293,59 +284,60 @@ function getRecipeListValues() {
 }
 
 function clearRecipeListValues() {
-
-    query: document.querySelector("#typeText").value = ""
-    number: document.querySelector("#typeNumber").value = ""
-    recipe_type: document.querySelector("#foodTypeList").value = ""
-    cuisine: document.querySelector("#cuisineList").value = ""
-    diet: document.querySelector("#dietList").value = ""
-    intolerances: document.querySelector("#intoleranceList").value = ""
-    exclude: document.querySelector("#typeTextExclusions").value = ""
+  query: document.querySelector("#typeText").value = "";
+  number: document.querySelector("#typeNumber").value = "";
+  recipe_type: document.querySelector("#foodTypeList").value = "";
+  cuisine: document.querySelector("#cuisineList").value = "";
+  diet: document.querySelector("#dietList").value = "";
+  intolerances: document.querySelector("#intoleranceList").value = "";
+  exclude: document.querySelector("#typeTextExclusions").value = "";
 }
 
 function buildCategoryList(e) {
-  e.preventDefault();
+  //e.preventDefault();
   let categoryList = [];
   let recipeCategories = [];
 
-
-function loadCategories() {
-  for (const {recipeCategoryName} of Recipe.all) {
-        recipeCategories.push(recipeCategoryName);
+  function loadCategories() {
+    for (const { recipeCategoryName } of Recipe.all) {
+      recipeCategories.push(recipeCategoryName);
+    }
+    categoryList = [...new Set(recipeCategories)];
+    return categoryList;
   }
-      categoryList = [...new Set(recipeCategories)]
-      return categoryList;
-} 
 
-function loadLastCategory() {
-  for (const {recipeCategoryName} of Recipe.all.slice(-1)) {
-        recipeCategories.push(recipeCategoryName);
+  function loadLastCategory() {
+    for (const { recipeCategoryName } of Recipe.all.slice(-1)) {
+      recipeCategories.push(recipeCategoryName);
+    }
+    categoryList = [...new Set(recipeCategories)];
+    return categoryList;
   }
-      categoryList = [...new Set(recipeCategories)]
-      return categoryList;
-} 
-
 
   if (initialListLoad === false) {
-     categoryList = loadCategories();
-     dropdownList = categoryList;
-  }else {
-      if (categoryList.length === 0 && JSON.stringify(loadLastCategory()) === JSON.stringify(dropdownList)) {
-         return
-      } else {
-          categoryList = loadLastCategory();
-      }
+    categoryList = loadCategories();
+    dropdownList = categoryList;
+  } else {
+    if (
+      categoryList.length === 0 &&
+      JSON.stringify(loadLastCategory()) === JSON.stringify(dropdownList)
+    ) {
+      return;
+    } else {
+      categoryList = loadLastCategory();
+    }
   }
   let buttonList = document.querySelector(".dropdown-menu");
-  let catArry = categoryList.filter(x => x)
-    catArry.forEach((list) => {
+  let catArry = categoryList.filter((x) => x);
+  catArry.forEach((list) => {
     let bttn = document.createElement("button");
-    bttn.className="dropdown-item";
-    bttn.setAttribute("type", "button")
+    bttn.className = "dropdown-item";
+    bttn.setAttribute("type", "button");
     bttn.innerText = list.charAt(0).toUpperCase() + list.slice(1);
     buttonList.append(bttn);
-  })
-    dropdownList = categoryList;
+  });
+  dropdownList = categoryList;
+  e.preventDefault();
 }
 
 function initiateRecipeSearch(e) {
@@ -399,16 +391,15 @@ function filterRecipeResults(e) {
 
   cards = document.querySelectorAll("#recipe-cards .card-body .category-name");
 
-
-
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (card.innerText.toUpperCase().includes(input)) {
-            card.parentNode.style.display = ""
-      } else if (input === "ALL") {
-        card.style.display === "none" ? card.parentNode.style.display === "none" : card.parentNode.style.display = ""
-      } else {
-            card.parentNode.style.display = "none"
-      }
-
-  })
+      card.parentNode.style.display = "";
+    } else if (input === "ALL") {
+      card.style.display === "none"
+        ? card.parentNode.style.display === "none"
+        : (card.parentNode.style.display = "");
+    } else {
+      card.parentNode.style.display = "none";
+    }
+  });
 }
