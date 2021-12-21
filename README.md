@@ -6,7 +6,7 @@ My Meal Planner is broken down in to two components. A search box that allows th
 The second part of the application requires the user to input a generalized food or recipe search followed by several optional parameters including the number of recipes returned; food type, cuisine, diet, food intolerance and any ingredient that the user would like excluded from the recipe. If the recipe is found, a recipe card is generated otherwise an alert box is generated stating "Recipe Not Found Please Try Again".
 
 ## Run Program 
-If you want to run the appplication remotely the front end uses GitHub Pages and the back end uses Heroku. The link to the application may be found here https://cleansolllc.github.io/my-meal-planner-frontend/.  
+If you want to run the appplication remotely the front end uses GitHub Pages and the back end uses Heroku. The link to the application may be found here https://cleansolllc.github.io/my-meal-planner-frontend-hold.  
 
 
 ## Prerequisites
